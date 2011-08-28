@@ -4,11 +4,16 @@ package {
     
     public class PlayState extends FlxState {
         
+        public var player:Player;
+        
         override public function create():void {
-            trace('created');
+            player = new Player(FlxG.width / 2, FlxG.height / 2);
+            add(player);
+            
         }
         
         override public function update():void {
+            super.update();
             trace('updated');
         }
         
