@@ -12,12 +12,15 @@ package {
         
         public var radius:uint = MIN_RAIDUS;
         
+        public var spriteCircle:Sprite;
+        
         public function DarkMatter(x:Number, y:Number):void {
             super(x, y);
+            spriteCircle = new Sprite();
         }
         
         public function drawCircle():void {
-            var spriteCircle:Sprite = new Sprite();
+            spriteCircle.graphics.clear();
             spriteCircle.graphics.beginFill(0x00FF00);
             spriteCircle.graphics.drawCircle(0, 0, radius);
             spriteCircle.graphics.endFill();
