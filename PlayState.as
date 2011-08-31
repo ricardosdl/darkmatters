@@ -22,15 +22,16 @@ package {
             map1 = maps.map1();
             add(map1);
             
-            var darkMatter:DarkMatter = new DarkMatter(500, 100);
+            var darkMatter:DarkMatter = new DarkMatter(100, 100);
             add(darkMatter);
+            
+            FlxG.mouse.show();
             
         }
         
         override public function update():void {
             super.update();
             FlxG.collide(map1, player);
-            trace('updated');
         }
         
     }
