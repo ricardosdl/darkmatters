@@ -37,7 +37,7 @@ package {
         }
         
         public function clearCircle():void {
-            makeGraphic(1, 1, 0x00ffffff);
+            makeGraphic(1, 1, 0x00000000);
         }
         
         public function drawCircle():void {
