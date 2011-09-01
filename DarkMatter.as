@@ -11,7 +11,16 @@ package {
         public static const MAX_RADIUS:uint = 50;
         public static const MIN_RAIDUS:uint = 1;
         
-        public var radius:Number = MIN_RAIDUS;
+        public var _radius:Number = MIN_RAIDUS;
+        
+        /**
+         *The amount of pixels per second that the darkmatter increate it's radius
+        */
+        public var _radiusStep:Number;
+        /**
+         *The current increase of the current frame it's used to draw the dark matter.
+        */
+        public var _currentRadiusStep:Number;
         
         public var spriteCircle:Sprite;
         
@@ -19,9 +28,10 @@ package {
         
         public var originalPosition:FlxPoint;
         
-        public function DarkMatter(x:Number, y:Number):void {
+        public function DarkMatter(x:Number, y:Number, radiusStep:Number = 10):void {
             super(x, y);
             originalPosition = new FlxPoint(x, y);
+            _radiusStep = radiusStep;
             spriteCircle = new Sprite();
             matrix = new Matrix();
         }
@@ -33,35 +43,26 @@ package {
         public function drawCircle():void {
             spriteCircle.graphics.clear();
             spriteCircle.graphics.beginFill(0x00FF00);
-            spriteCircle.graphics.drawCircle(0, 0, radius);
+            spriteCircle.graphics.drawCircle(0, 0, _radius);
             spriteCircle.graphics.endFill();
             var bitmapDataCircle:BitmapData = new BitmapData(spriteCircle.width, spriteCircle.height, true, 0x00000000);
             matrix.identity();
-            //matrix.translate(x - (spriteCircle.width / 2), y - (spriteCircle.height / 2));
-            trace("sprite w:" + spriteCircle.width);
-            trace("sprite h:" + spriteCircle.height);
-            matrix.translate(radius, radius);
+            matrix.translate(_radius, _radius);
             bitmapDataCircle.draw(spriteCircle, matrix);
-            //bitmapDataCircle.draw(spriteCircle);
             _pixels = bitmapDataCircle;
             width = frameWidth = _pixels.width;
             height = frameHeight = _pixels.height;
             resetHelpers();
-            trace('x before:' + x);
-            trace('y before:' + y);
-            x = x - .3;
-            y = y - .3;
-            trace('x after:' + x);
-            trace('y after:' + y);
+            x = x - _currentRadiusStep;
+            y = y - _currentRadiusStep;
         }
         
         override public function update():void {
+            _currentRadiusStep = _radiusStep * FlxG.elapsed;
+            _radius += _currentRadiusStep;
             drawCircle();
-            //trace("dark matter x:" + x);
-            //trace("dark matter y:" + y);
-            radius += .3;
-            if (radius > MAX_RADIUS) {
-                radius = MIN_RAIDUS;
+            if (_radius > MAX_RADIUS) {
+                _radius = MIN_RAIDUS;
                 clearCircle();
                 x = originalPosition.x;
                 y = originalPosition.y;
