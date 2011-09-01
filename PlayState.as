@@ -6,6 +6,8 @@ package {
         
         public var player:Player;
         
+        public var darkMatter:DarkMatter;
+        
         public var map1:FlxTilemap;
         
         public var maps:Maps;
@@ -22,7 +24,7 @@ package {
             map1 = maps.map1();
             add(map1);
             
-            var darkMatter:DarkMatter = new DarkMatter(100, 100);
+            darkMatter = new DarkMatter(100, 100);
             add(darkMatter);
             
             FlxG.mouse.show();
@@ -32,6 +34,24 @@ package {
         override public function update():void {
             super.update();
             FlxG.collide(map1, player);
+            if (FlxG.overlap(darkMatter, player, overlapped)) {
+                trace("overlapped");
+            } else {
+                trace("didn't overlapped");
+            }
+            input();
+        }
+        
+        public function overlapped(sprite1:FlxSprite, sprite2:FlxSprite):void {
+            trace("collided");
+        }
+        
+        public function input():void {
+            if (FlxG.keys.justPressed("C")) {
+                darkMatter.changeRadius(15);
+            } else if (FlxG.keys.justPressed("X")) {
+                darkMatter.changeRadius(-15);
+            }
         }
         
     }
