@@ -21,7 +21,7 @@ package {
             
             maps = new Maps();
             
-            map1 = maps.map1();
+            map1 = maps.getMap(GameData.currentLevel);
             add(map1);
             
             darkMatter = new DarkMatter(100, 100);
