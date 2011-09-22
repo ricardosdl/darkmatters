@@ -11,6 +11,15 @@ package {
         public var pngTilesLevels:Class;
         
         public function Maps():void {
+            
+        }
+        
+        public function getMap(level:uint):FlxTilemap {
+            var map:FlxTilemap;
+            if(level == 1) {
+                map = map1();
+            }
+            return map;
         }
         
         public function map1():FlxTilemap{
