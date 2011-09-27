@@ -4,13 +4,15 @@ package {
     
     public class PlayState extends FlxState {
         
-        public var player:Player;
+        public static var player:Player;
         
         public var darkMatter:DarkMatter;
         
         public var map1:FlxTilemap;
         
         public var maps:Maps;
+	
+	public var gameMap:GameMap;
         
         override public function create():void {
             player = new Player(FlxG.width / 2, FlxG.height / 2);
@@ -19,17 +21,22 @@ package {
             FlxG.camera.setBounds(0, 0, 640, 480, true);
 	    FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
             
-            maps = new Maps();
+	    gameMap = getGameMap(GameState.currentLevel);
             
-            map1 = maps.getMap(GameData.currentLevel);
-            add(map1);
-            
-            darkMatter = new DarkMatter(100, 100);
+            //darkMatter = new DarkMatter(100, 100, 10, );
             add(darkMatter);
             
             FlxG.mouse.show();
             
         }
+	
+	public function getGameMap(level:uint):GameMap {
+	    var currentGameMap:GameMap;
+	    if (level == 1) {
+		currentGameMap = new GameMap1(level);
+	    }
+	    return currentGameMap;
+	}
         
         override public function update():void {
             super.update();
