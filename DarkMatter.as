@@ -36,10 +36,15 @@ package {
         
         public var originalPosition:FlxPoint;
         
-        public function DarkMatter(x:Number, y:Number, radiusStep:Number = 10):void {
+        public var _darkMatterBehavior:Function;
+        
+        public function DarkMatter(x:Number, y:Number,
+            darkMatterBehavior:Function, radiusStep:Number = 10):void {
+            
             super(x, y);
             originalPosition = new FlxPoint(x, y);
             _radiusStep = radiusStep;
+            _darkMatterBehavior = darkMatterBehavior;
             _nextRadius = _currentRadius;
             spriteCircle = new Sprite();
             matrix = new Matrix();
@@ -89,6 +94,7 @@ package {
         }
         
         override public function update():void {
+            _darkMatterBehavior(this);
             if (isChangingRadius()) {
                 _currentRadiusStep = calcCurrentRadiusStep(_amountToChangeRadius);
                 _currentRadius += _currentRadiusStep;
