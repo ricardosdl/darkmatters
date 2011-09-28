@@ -8,8 +8,6 @@ package {
         
         public var darkMatter:DarkMatter;
         
-        public var map1:FlxTilemap;
-        
         public var maps:Maps;
 	
 	public var gameMap:GameMap;
@@ -22,9 +20,9 @@ package {
 	    FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
             
 	    gameMap = getGameMap(GameState.currentLevel);
+	    add(gameMap.map);
             
-            //darkMatter = new DarkMatter(100, 100, 10, );
-            add(darkMatter);
+            add(gameMap.darkMatters);
             
             FlxG.mouse.show();
             
@@ -40,8 +38,8 @@ package {
         
         override public function update():void {
             super.update();
-            FlxG.collide(map1, player);
-            if (FlxG.overlap(darkMatter, player, overlapped)) {
+            FlxG.collide(gameMap.map, player);
+            if (FlxG.overlap(gameMap.darkMatters, player, overlapped)) {
                 trace("overlapped");
             } else {
                 trace("didn't overlapped");
