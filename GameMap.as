@@ -4,11 +4,11 @@ package {
     
     public class GameMap {
         
-        public var darkMatters:Array;
+        public var darkMatters:FlxGroup;
         public var map:FlxTilemap;
         
         public function GameMap(level:uint) {
-            darkMatters = new Array();
+            darkMatters = new FlxGroup();
             map = Maps.getMap(level);
         }
         
