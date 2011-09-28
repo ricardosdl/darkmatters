@@ -15,9 +15,9 @@ package {
         }
         
         public static function getMap(level:uint):FlxTilemap {
-            var map:FlxTilemap;
+            var map:FlxTilemap = new FlxTilemap();
             if(level == 1) {
-                map.loadMap(new Maps.csvMap1, Maps.pngTilesLevels, 16, 16);
+                map.loadMap(new Maps.csvMap1(), Maps.pngTilesLevels, 16, 16);
                 map.x = 0;
                 map.y = 0;
             }
