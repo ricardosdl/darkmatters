@@ -62,9 +62,13 @@ package {
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
                 darkMatter1Behavior(), 10);
             
+            darkMatters.add(darkMatter1);
+            
             var position2:FlxPoint = darkMattersPositions[1];
             var darkMatter2:DarkMatter = new DarkMatter(position2.x, position2.y,
                 darkMatter2Behavior(), 10);
+            
+            darkMatters.add(darkMatter2);
             
         }
         
