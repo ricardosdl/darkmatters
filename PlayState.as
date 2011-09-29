@@ -1,6 +1,7 @@
 package {
     
     import org.flixel.*;
+    import org.flixel.plugin.photonstorm.*;
     
     public class PlayState extends FlxState {
         
@@ -39,17 +40,24 @@ package {
         override public function update():void {
             super.update();
             FlxG.collide(gameMap.map, player);
-            if (FlxG.overlap(gameMap.darkMatters, player, overlapped)) {
-                trace("overlapped");
-            } else {
-                trace("didn't overlapped");
-            }
+	    playerDarkMattersColisions(player, gameMap.darkMatters.members);
             input();
         }
-        
-        public function overlapped(sprite1:FlxSprite, sprite2:FlxSprite):void {
-            trace("collided");
-        }
+	
+	public function playerDarkMattersColisions(player:FlxSprite, darkMatters:Array):void {
+	    var sizeDarkMatters:int = darkMatters.length;
+	    trace("size dark matters:" + sizeDarkMatters);
+	    for(var i:int = sizeDarkMatters - 1; i >= 0; i--) {
+		var darkMatter:FlxSprite = darkMatters[i] as FlxSprite;
+		if (FlxCollision.pixelPerfectCheck(player, darkMatter)) {
+		    //overlapped(player, darkMatter);
+		    trace("overlapped");
+		} else {
+		    trace("didn't overlapped");
+		}
+	    }
+	    
+	}
         
         public function input():void {
             if (FlxG.keys.justPressed("C")) {
