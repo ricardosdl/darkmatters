@@ -47,9 +47,9 @@ package {
             var lastTime:Number = 0;
             
             return function(darkMatter:DarkMatter):void {
-                var justPassedTenSeconds:Boolean = currentTime > lastTime + 10;
-                if (justPassedTenSeconds) {
-                    darkMatter.changeRadius(10);
+                var timeToGrow:Boolean = currentTime > lastTime + 5;
+                if (timeToGrow) {
+                    darkMatter.changeRadius(30);
                     lastTime = currentTime;
                     return;
                 }
@@ -60,7 +60,7 @@ package {
         public function initDarkMatters():void {
             var position1:FlxPoint = darkMattersPositions[0];
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
-                darkMatter1Behavior(), 10);
+                darkMatter1Behavior(), 30);
             
             darkMatters.add(darkMatter1);
             
@@ -74,7 +74,7 @@ package {
         
         public function initDarkMattersPositions():void {
             //upper right corner
-            var position1:FlxPoint = new FlxPoint(320, 0);
+            var position1:FlxPoint = new FlxPoint(640, 0);
             //
             var position2:FlxPoint = new FlxPoint(FlxG.width / 2, FlxG.height / 2);
             darkMattersPositions = new Array();
