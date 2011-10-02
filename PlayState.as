@@ -14,9 +14,6 @@ package {
 	public var gameMap:GameMap;
         
         override public function create():void {
-            player = new Player(FlxG.width / 2, FlxG.height / 2);
-            add(player);
-            
             FlxG.camera.setBounds(0, 0, 640, 480, true);
 	    FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
             
@@ -24,6 +21,11 @@ package {
 	    add(gameMap.map);
             
             add(gameMap.darkMatters);
+	    
+	    add(gameMap.portal);
+	    
+	    player = new Player(FlxG.width / 2, FlxG.height / 2);
+            add(player);
             
             FlxG.mouse.show();
             
@@ -46,14 +48,10 @@ package {
 	
 	public function playerDarkMattersColisions(player:FlxSprite, darkMatters:Array):void {
 	    var sizeDarkMatters:int = darkMatters.length;
-	    trace("size dark matters:" + sizeDarkMatters);
 	    for(var i:int = sizeDarkMatters - 1; i >= 0; i--) {
 		var darkMatter:FlxSprite = darkMatters[i] as FlxSprite;
 		if (FlxCollision.pixelPerfectCheck(player, darkMatter)) {
-		    //overlapped(player, darkMatter);
-		    trace("overlapped");
-		} else {
-		    trace("didn't overlapped");
+		    //game over
 		}
 	    }
 	    
