@@ -4,11 +4,14 @@ package {
     
     public class GameMap {
         
+        public static const TILE_SIZE:int = 16;
+        
         [Embed(source="data/gfx/portal.png")]
-        public static var pngPortal:Class;
+        public var pngPortal:Class;
         
         public var darkMatters:FlxGroup;
         public var map:FlxTilemap;
+        public var portal:FlxSprite;
         
         public function GameMap(level:uint) {
             darkMatters = new FlxGroup();
