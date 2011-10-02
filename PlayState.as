@@ -14,10 +14,7 @@ package {
 	public var gameMap:GameMap;
         
         override public function create():void {
-            FlxG.camera.setBounds(0, 0, 640, 480, true);
-	    FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
-            
-	    gameMap = getGameMap(GameState.currentLevel);
+            gameMap = getGameMap(GameState.currentLevel);
 	    add(gameMap.map);
             
             add(gameMap.darkMatters);
@@ -26,6 +23,9 @@ package {
 	    
 	    player = new Player(FlxG.width / 2, FlxG.height / 2);
             add(player);
+	    
+	    FlxG.camera.setBounds(0, 0, 640, 480, true);
+	    FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
             
             FlxG.mouse.show();
             
