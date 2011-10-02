@@ -5,7 +5,7 @@ package {
     public class Player extends FlxSprite {
         
         public static const MAX_VELOCITY:int = 100;
-        public static const ACCELERATION:int = 2 * MAX_VELOCITY;
+        public static const ACCELERATION:int = MAX_VELOCITY;
         
         
         public function Player(x:Number, y:Number) {
