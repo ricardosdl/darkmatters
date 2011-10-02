@@ -43,8 +43,15 @@ package {
             super.update();
             FlxG.collide(gameMap.map, player);
 	    playerDarkMattersColisions(player, gameMap.darkMatters.members);
+	    playerPortalCollisions();
             input();
         }
+	
+	public function playerPortalCollisions():void {
+	    if (FlxG.overlap(player, gameMap.portal)) {
+		trace('next level please');
+	    }
+	}
 	
 	public function playerDarkMattersColisions(player:FlxSprite, darkMatters:Array):void {
 	    var sizeDarkMatters:int = darkMatters.length;
