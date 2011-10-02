@@ -21,7 +21,7 @@ package {
 	    
 	    add(gameMap.portal);
 	    
-	    player = new Player(FlxG.width / 2, FlxG.height / 2);
+	    player = new Player(gameMap.initialPlayerPosition.x, gameMap.initialPlayerPosition.y);
             add(player);
 	    
 	    FlxG.camera.setBounds(0, 0, 640, 480, true);
