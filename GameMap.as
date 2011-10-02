@@ -13,6 +13,8 @@ package {
         public var map:FlxTilemap;
         public var portal:FlxSprite;
         
+        public var initialPlayerPosition:FlxPoint;
+        
         public function GameMap(level:uint) {
             darkMatters = new FlxGroup();
             map = Maps.getMap(level);
