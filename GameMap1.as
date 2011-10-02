@@ -16,6 +16,12 @@ package {
             initDarkMattersPositions();
             initDarkMatters();
             initPortal();
+            initInitialPlayerPosition();
+        }
+        
+        public function initInitialPlayerPosition():void {
+            //poistion is tileX = 2 and tileY = 2
+            this.initialPlayerPosition = new FlxPoint(2 * GameMap.TILE_SIZE, 2 * GameMap.TILE_SIZE);
         }
         
         public function initPortal():void {
