@@ -16,15 +16,15 @@ package {
         }
         
         public function initInitialPlayerPosition():void {
-            //poistion is tileX = 19 and tileY = 0
-            this.initialPlayerPosition = new FlxPoint(19 * GameMap.TILE_SIZE, 0);
+            //poistion is tileX = 18 and tileY = 1
+            this.initialPlayerPosition = new FlxPoint(18 * GameMap.TILE_SIZE, 1 * GameMap.TILE_SIZE);
         }
         
         public function initPortal():void {
             //always tileY = 29 and tileX = 17
             var portalPosition:FlxPoint = new FlxPoint();
-            portalPosition.y = 29 * GameMap.TILE_SIZE;
-            portalPosition.x = 17 * GameMap.TILE_SIZE;
+            portalPosition.y = 28 * GameMap.TILE_SIZE;
+            portalPosition.x = 16 * GameMap.TILE_SIZE;
             
             this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
         }
@@ -34,11 +34,11 @@ package {
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
                 darkMatter1Behavior(), 15);
             
-            darkMatters.push(darkMatter1);
+            darkMatters.add(darkMatter1);
             
             var darkMatter2:DarkMatter = new DarkMatter(0, 0, darkMatter2Behavior());
             
-            darkMatters.push(darkMatter2);
+            darkMatters.add(darkMatter2);
             
         }
         
