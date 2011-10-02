@@ -15,6 +15,22 @@ package {
         public function init():void {
             initDarkMattersPositions();
             initDarkMatters();
+            initPortal();
+        }
+        
+        public function initPortal():void {
+            var portalPosition:FlxPoint = new FlxPoint();
+            //always tile y-27
+            portalPosition.y = 27 * GameMap.TILE_SIZE;
+            
+            trace("portal position y:" + portalPosition.y);
+            var xTilePosition:int = Math.floor(Math.random() * 39);
+            if (xTilePosition <= 0) {
+                xTilePosition = 1;
+            }
+            portalPosition.x = xTilePosition * GameMap.TILE_SIZE;
+            trace("portal position x:" + portalPosition.x);
+            this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
         }
         
         public function darkMatterBehaviors(id:int):Function {
