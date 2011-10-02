@@ -35,6 +35,8 @@ package {
 	    var currentGameMap:GameMap;
 	    if (level == 1) {
 		currentGameMap = new GameMap1(level);
+	    } else if (level == 2) {
+		currentGameMap = new GameMap2(level);
 	    }
 	    return currentGameMap;
 	}
