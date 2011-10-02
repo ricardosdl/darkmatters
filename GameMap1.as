@@ -50,14 +50,27 @@ package {
         }
         
         public function darkMatter2Behavior():Function {
+            //current time of exection of the game
             var currentTime:Number = 0;
+            //last time the dark matter grown
             var lastTime:Number = 0;
+            //tells if the darkmatter has already grown one time
+            var firstGrow:Boolean = true;
             
             return function(darkMatter:DarkMatter):void {
-                var timeToGrow:Boolean = currentTime > lastTime + 15;
+                var timeToGrow:Boolean;
+                if (firstGrow) {
+                    //the first grow takes only 3 seconds
+                    timeToGrow = currentTime > lastTime + 3;
+                } else {
+                    //the further growns will take 5 seconds
+                    timeToGrow = currentTime > lastTime + 5;
+                }
+                
                 if (timeToGrow) {
-                    darkMatter.changeRadius(10);
+                    darkMatter.changeRadius(5);
                     lastTime = currentTime;
+                    firstGrow = false;
                     return;
                 }
                 currentTime += FlxG.elapsed;
