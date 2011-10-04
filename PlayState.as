@@ -43,6 +43,8 @@ package {
         
         override public function update():void {
             super.update();
+	    //trace('player velocity x:' + player.velocity.x);
+	    //trace('player velocity y:' + player.velocity.y);
             FlxG.collide(gameMap.map, player);
 	    playerDarkMattersColisions(player, gameMap.darkMatters.members);
 	    playerPortalCollisions();
@@ -60,7 +62,7 @@ package {
 	    for(var i:int = sizeDarkMatters - 1; i >= 0; i--) {
 		var darkMatter:FlxSprite = darkMatters[i] as FlxSprite;
 		if (FlxCollision.pixelPerfectCheck(player, darkMatter)) {
-		    //game over
+		    trace('game over');
 		}
 	    }
 	    
