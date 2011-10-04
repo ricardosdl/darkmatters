@@ -11,12 +11,12 @@ package {
         public static const MAX_RADIUS:uint = 50;
         public static const MIN_RAIDUS:uint = 1;
         
-        public var _currentRadius:Number = 0;
+        public var currentRadius:Number = 0;
         
         /**
          *The amount of pixels per second that the darkmatter increate it's radius
         */
-        public var _radiusStep:Number;
+        public var radiusStep:Number;
         /**
          *The current increase of the current frame it's used to draw the dark matter.
         */
@@ -43,21 +43,21 @@ package {
             
             super(x, y);
             originalPosition = new FlxPoint(x, y);
-            _radiusStep = radiusStep;
+            this.radiusStep = radiusStep;
             _darkMatterBehavior = darkMatterBehavior;
-            _nextRadius = _currentRadius;
+            _nextRadius = currentRadius;
             spriteCircle = new Sprite();
             matrix = new Matrix();
             clearCircle();
         }
         
         public function isChangingRadius():Boolean {
-            return _nextRadius != _currentRadius;
+            return _nextRadius != currentRadius;
         }
         
         public function changeRadius(amountToChangeRadius:Number):void {
             _amountToChangeRadius = amountToChangeRadius;
-            _nextRadius = _currentRadius + _amountToChangeRadius;
+            _nextRadius = currentRadius + _amountToChangeRadius;
             if (_nextRadius <= 0) {
                 _nextRadius = 0;
             }
@@ -72,11 +72,11 @@ package {
         public function drawCircle():void {
             spriteCircle.graphics.clear();
             spriteCircle.graphics.beginFill(0x00FF00);
-            spriteCircle.graphics.drawCircle(0, 0, _currentRadius);
+            spriteCircle.graphics.drawCircle(0, 0, currentRadius);
             spriteCircle.graphics.endFill();
             var bitmapDataCircle:BitmapData = new BitmapData(spriteCircle.width, spriteCircle.height, true, 0x00000000);
             matrix.identity();
-            matrix.translate(_currentRadius, _currentRadius);
+            matrix.translate(currentRadius, currentRadius);
             bitmapDataCircle.draw(spriteCircle, matrix);
             _pixels = bitmapDataCircle;
             width = frameWidth = _pixels.width;
@@ -88,24 +88,24 @@ package {
         
         public function calcCurrentRadiusStep(amountToChangeRadius:Number):Number {
             if (_amountToChangeRadius < 0) {
-                return _radiusStep * FlxG.elapsed * -1;
+                return radiusStep * FlxG.elapsed * -1;
             }
-            return _radiusStep * FlxG.elapsed;
+            return radiusStep * FlxG.elapsed;
         }
         
         override public function update():void {
             _darkMatterBehavior(this);
             if (isChangingRadius()) {
                 _currentRadiusStep = calcCurrentRadiusStep(_amountToChangeRadius);
-                _currentRadius += _currentRadiusStep;
+                currentRadius += _currentRadiusStep;
                 
-                if ((_currentRadiusStep < 0) && (_currentRadius <= _nextRadius)) {
-                    _currentRadius = _nextRadius;
-                } else if ((_currentRadiusStep > 0) && (_currentRadius >= _nextRadius)) {
-                    _currentRadius = _nextRadius;
+                if ((_currentRadiusStep < 0) && (currentRadius <= _nextRadius)) {
+                    currentRadius = _nextRadius;
+                } else if ((_currentRadiusStep > 0) && (currentRadius >= _nextRadius)) {
+                    currentRadius = _nextRadius;
                 }
                 
-                if (_currentRadius < 1) {
+                if (currentRadius < 1) {
                     clearCircle();
                 } else {
                     drawCircle();
