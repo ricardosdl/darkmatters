@@ -25,7 +25,7 @@ package {
             add(player);
 	    
 	    FlxG.camera.setBounds(0, 0, 640, 480, true);
-	    FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
+	    FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN_TIGHT);
             
             FlxG.mouse.show();
             
