@@ -4,8 +4,9 @@ package {
     
     public class Player extends FlxSprite {
         
-        public static const MAX_VELOCITY:int = 100;
-        public static const ACCELERATION:int = MAX_VELOCITY;
+        public static const MAX_VELOCITY:int = 75;
+        public static const ACCELERATION:int = 150;
+        public static const DRAG:int = 2 * MAX_VELOCITY;
         
         
         public function Player(x:Number, y:Number) {
@@ -13,8 +14,8 @@ package {
             makeGraphic(10,12,0xffaa1111);
             maxVelocity.x = MAX_VELOCITY;
             maxVelocity.y = MAX_VELOCITY;
-            drag.x = ACCELERATION;
-            drag.y = ACCELERATION;
+            drag.x = DRAG;
+            drag.y = DRAG;
         }
         
         public function input():void {
