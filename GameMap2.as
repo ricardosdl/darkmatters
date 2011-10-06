@@ -94,11 +94,6 @@ package {
         }
         
         public function darkMatter2Behavior():Function {
-            var lastPlayerPosition:FlxPoint = new FlxPoint();
-            var currentPlayerPosition:FlxPoint = new FlxPoint();
-            
-            var darkMatterLastPosition:FlxPoint = new FlxPoint();
-            
             var waitTime:Number = RandomInterval.randomInterval(4, 8, true);
             var currentTime:Number = 0;
             var lastTime:Number = 0;
