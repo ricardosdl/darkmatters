@@ -94,7 +94,7 @@ package {
         }
         
         public function darkMatter2Behavior():Function {
-            var waitTime:Number = RandomInterval.randomInterval(4, 8, true);
+            var waitTime:Number = RandomInterval.randomInterval(1, 4, true);
             var currentTime:Number = 0;
             var lastTime:Number = 0;
             var timeToGrow:Boolean;
@@ -131,7 +131,7 @@ package {
                     trace('grow motherfucker');
                     _changeDarkMatterRadius(darkMatter);
                     //new waitTime!
-                    waitTime = RandomInterval.randomInterval(4, 8, true);
+                    waitTime = RandomInterval.randomInterval(1, 4, true);
                     expanding = true;
                     //we must update the currentTime
                     currentTime += FlxG.elapsed;
