@@ -8,7 +8,7 @@ package {
     public class Darkness extends FlxGame {
         
         public function Darkness():void {
-            super(320, 240, PlayState, 2, 50, 50);
+            super(160, 120, PlayState, 2, 50, 50);
             forceDebugger = true;
         }
         
