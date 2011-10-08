@@ -111,7 +111,7 @@ package {
             //upper right corner
             var position1:FlxPoint = new FlxPoint(640, 0);
             //
-            var position2:FlxPoint = new FlxPoint(FlxG.width / 2, FlxG.height / 2);
+            var position2:FlxPoint = new FlxPoint(FlxG.width, FlxG.height);
             darkMattersPositions = new Array();
             darkMattersPositions.push(position1);
             darkMattersPositions.push(position2);
