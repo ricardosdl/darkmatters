@@ -40,6 +40,7 @@ package {
 	    } else if (level == 3) {
 		currentGameMap = new GameMap3(level);
 	    }
+	    currentGameMap.playState = this;
 	    return currentGameMap;
 	}
         
