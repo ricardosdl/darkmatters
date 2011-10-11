@@ -31,6 +31,8 @@ package {
             portalPosition.y = 1 * GameMap.TILE_SIZE;
             
             this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
+            this.portal.alive = false;
+            this.portal.exists = false;
             
         }
         
