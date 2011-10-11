@@ -13,6 +13,10 @@ package {
         public var map:FlxTilemap;
         public var portal:FlxSprite;
         public var playState:PlayState;
+        /**
+         *This attribute is used to store an array representation of the map.
+        */
+        public var arrayMap:Array;
         
         public var initialPlayerPosition:FlxPoint;
         
