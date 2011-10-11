@@ -12,6 +12,7 @@ package {
         public var darkMatters:FlxGroup;
         public var map:FlxTilemap;
         public var portal:FlxSprite;
+        public var playState:PlayState;
         
         public var initialPlayerPosition:FlxPoint;
         
