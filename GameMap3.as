@@ -7,8 +7,10 @@ package {
         public var numberOfDarkMatters:uint = 1;
         public var darkMattersPositions:Array;
         
-        public function GameMap3(level:uint) {
-            super(level);
+        public var darkOther:DarkOther;
+        
+        public function GameMap3(level:uint, playState:FlxState) {
+            super(level, playState);
             init();
         }
         
@@ -18,6 +20,13 @@ package {
             initPortal();
             initInitialPlayerPosition();
             initArrayMap();
+            initDarkOther();
+        }
+        
+        public function initDarkOther():void {
+            //tile x = 34, tile y = 12
+            this.darkOther = new DarkOther(34 * GameMap.TILE_SIZE, 12 * GameMap.TILE_SIZE);
+            this.playState.add(darkOther);
         }
         
         public function initArrayMap():void {

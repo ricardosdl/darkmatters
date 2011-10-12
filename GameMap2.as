@@ -8,8 +8,8 @@ package {
         public var numberOfDarkMatters:uint = 2;
         public var darkMatterPositions:Array;
         
-        public function GameMap2(level:uint) {
-            super(level);
+        public function GameMap2(level:uint, playState:FlxState) {
+            super(level, playState);
             initDarkMatterPositions();
             initDarkMatters();
             initPortal();
