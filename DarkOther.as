@@ -9,7 +9,7 @@ package {
         
         public function DarkOther(x:Number, y:Number) {
             super(x, y);
-            makeGraphic(10,12,0xaaff1111);
+            makeGraphic(10,12,0x22bb1111);
             maxVelocity.x = MAX_VELOCITY;
             maxVelocity.y = MAX_VELOCITY;
         }
