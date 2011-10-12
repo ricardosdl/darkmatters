@@ -34,13 +34,12 @@ package {
 	public function getGameMap(level:uint):GameMap {
 	    var currentGameMap:GameMap;
 	    if (level == 1) {
-		currentGameMap = new GameMap1(level);
+		currentGameMap = new GameMap1(level, this);
 	    } else if (level == 2) {
-		currentGameMap = new GameMap2(level);
+		currentGameMap = new GameMap2(level, this);
 	    } else if (level == 3) {
-		currentGameMap = new GameMap3(level);
+		currentGameMap = new GameMap3(level, this);
 	    }
-	    currentGameMap.playState = this;
 	    return currentGameMap;
 	}
         
