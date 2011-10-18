@@ -1,21 +1,315 @@
 package {
     
     import org.flixel.*;
+    import flash.utils.ByteArray;
     
     public class DarkOther extends FlxSprite {
         
-        public static const MAX_VELOCITY:int = 85;
+        public static const NORMAL_MAX_VELOCITY:int = 90;
+        public static const BOOST_MAX_VELOCITY:int = 130;
         public static const ACCELERATION:int = 150;
+        public static const MIN_PLAYER_DISTANCE:Number = 55;
         
-        public function DarkOther(x:Number, y:Number) {
+        /**
+         *These are the tiles locations where the DarkOther must pass. The DarkOther
+         *will as well wait at these locations for the player.
+        */
+        public var wayPoints:Array;
+        
+        public var pathFinder:PathFinder;
+        
+        /**
+         *This is the grid sent by the GameMap class. This grid contains the
+         *representation of the game scenario. With it we now wich tiles are walkable
+         *or unwalkable.
+        */
+        public var _originalGrid:Array;
+        /**
+         *This is the grid that we alter to reflect the unwalkable tiles that are near
+         *the player. Because the player can move any time we update this grid to reflect
+         *player's current position.
+        */
+        public var _alteredGrid:Array;
+        
+        /**
+         *We use this var to store the current way point where the darkother is.
+         *It's zero based.
+        */
+        public var currentWayPoint:int;
+        
+        /**
+         *Helper vars.
+        */
+        public var _darkOtherPosition:FlxPoint;
+        public var _playerPosition:FlxPoint;
+        public var _nextPoint:FlxPoint;
+        public var _nextWayPoint:FlxPoint;
+        
+        /**
+         *The current path that the darkother must follow.
+        */
+        public var _path:Array;
+        
+        public var maxVelocityValue:int;
+        
+        
+        public function DarkOther(x:Number, y:Number, grid:Array) {
             super(x, y);
+            _originalGrid = grid;
+            _copyOriginalGrid();
             makeGraphic(10,12,0x22bb1111);
-            maxVelocity.x = MAX_VELOCITY;
-            maxVelocity.y = MAX_VELOCITY;
+            maxVelocityValue = NORMAL_MAX_VELOCITY;
+            maxVelocity.x = maxVelocityValue;
+            maxVelocity.y = maxVelocityValue;
+            initWayPoints();
+            initPathFinder();
+            
+            _darkOtherPosition = new FlxPoint();
+            _playerPosition = new FlxPoint();
+            _nextPoint = new FlxPoint();
+            _nextWayPoint = new FlxPoint();
+            
+            _path = new Array();
+        }
+        
+        public function _printAlteredGrid(theGrid:Array):void {
+            trace('begin==========================');
+            var numLines:int = theGrid.length;
+            var numColumns:int = theGrid[0].length;
+            var line:String = '';
+            for(var i:int = 0; i < numLines; i++) {
+                for(var j:int = 0; j < numColumns; j++) {
+                    line += theGrid[i][j];
+                }
+                trace(line);
+                line = '';
+            }
+            trace('end==========================');
+        }
+        
+        public function _copyOriginalGrid():void {
+            _alteredGrid = null;
+            var cloner:ByteArray = new ByteArray();
+            cloner.writeObject(_originalGrid);
+            cloner.position = 0;
+            _alteredGrid = cloner.readObject() as Array;
+        }
+        
+        public function initPathFinder():void {
+            pathFinder = new PathFinder(_alteredGrid);
+        }
+        
+        public function initWayPoints():void {
+            wayPoints = new Array();
+            //the way
+            wayPoints.push(new FlxPoint(34, 12));
+            wayPoints.push(new FlxPoint(30, 18));
+            wayPoints.push(new FlxPoint(25, 14));
+            wayPoints.push(new FlxPoint(10, 11));
+            wayPoints.push(new FlxPoint(4, 19));
+            wayPoints.push(new FlxPoint(2, 23));
+            wayPoints.push(new FlxPoint(19, 23));
+            wayPoints.push(new FlxPoint(31, 24));
+            wayPoints.push(new FlxPoint(38, 28));
+            currentWayPoint = 0;
+        }
+        
+        public function isPlayerTooClose():Boolean {
+            //here we consider the center of the sprite
+            _darkOtherPosition.x = x + origin.x;
+            _darkOtherPosition.y = y + origin.y;
+            
+            _playerPosition.x = PlayState.player.x + PlayState.player.origin.x;
+            _playerPosition.y = PlayState.player.y + PlayState.player.origin.y;
+            
+            return FlxU.getDistance(_darkOtherPosition, _playerPosition) <= MIN_PLAYER_DISTANCE;
+            
+        }
+        
+        public function _calcPlayerTileX(playerX:Number, tileWidth:int):int {
+            return Math.floor(playerX / tileWidth);
+        }
+        
+        public function _calcPlayerTileY(playerY:Number, tileHeight:int):int {
+            return Math.floor(playerY / tileHeight);
+        }
+        
+        public function _calcTileX(x:Number, tileWidth:int):int {
+            return Math.floor(x / tileWidth);
+        }
+        
+        public function _calcTileY(y:Number, tileHeight:int):int {
+            return Math.floor(y / tileHeight);
+        }
+        
+        public function _updateGrid():void {
+            _copyOriginalGrid();
+            
+            var playerCenterX:Number = PlayState.player.x + PlayState.player.origin.x;
+            var playerCenterY:Number = PlayState.player.y + PlayState.player.origin.y;
+            
+            var playerTileX:int = _calcPlayerTileX(playerCenterX, GameMap.TILE_SIZE);
+            var playerTileY:int = _calcPlayerTileY(playerCenterY, GameMap.TILE_SIZE);
+            
+            //var colList:Array = [-1, 0, 1, 1, 1, 0, -1, -1, 0];
+            //var rowList:Array = [-1, -1, -1, 0, 1, 1, 1, 0, 0];
+            var colList:Array = [0];
+            var rowList:Array = [0];
+            
+            //colList = colList.concat([-2, -1,  0,  1,  2 , 2 , 2, 2, 2, 1, 0, -1, -2, -2, -2, -2]);
+            //trace('col list len:' + colList.length);
+            ////var colList:Array = [-2, -1,  0,  1,  2 , 2 , 2, 2, 2, 1, 0, -1, -2, -2, -2, -2];
+            //rowList = rowList.concat([-2, -2, -2, -2, -2, -1,  0, 1, 2, 2, 2,  2,  2,  1,  0, -1]);
+            ////var rowList:Array = [-2, -2, -2, -2, -2, -1,  0, 1, 2, 2, 2,  2,  2,  1,  0, -1];
+            
+            //we expect this to always be 1
+            var numNodes:int = colList.length;
+            for(var i:int = 0; i < numNodes; i++) {
+                var yPosition:int = playerTileY + rowList[i];
+                if ((_alteredGrid[yPosition] == undefined) || (_alteredGrid[yPosition] == null)) {
+                    //it means that this position is out of the screen so we don't need do update
+                    continue;
+                }
+                var xPosition:int = playerTileX + colList[i];
+                //here we mark this spot as unwalkable that can be any postion around the player and
+                //the player's own position, by the way they are the tile positions
+                _alteredGrid[yPosition][xPosition] = 1;
+            }
+            //_printAlteredGrid(_alteredGrid);
+        }
+        
+        public function _stop():void {
+            velocity.x = 0;
+            velocity.y = 0;
+        }
+        
+        public function _move():void {
+            //no path to move
+            if (_path.length == 0) {
+                _stop();
+                return;
+            }
+            
+            //just one node in the path, so we are already at this node
+            if (_path.length == 1) {
+                _path.splice(0, 1);
+                _stop();
+                return;
+            }
+            
+            //removes the first because it's the actual node where the darkother is.
+            _path.splice(0, 1);
+            
+            while(_path.length > 0) {
+                var node:Object = _path[0];
+                //this is the point that the darkohter must reach
+                _nextPoint.x = node.x * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
+                _nextPoint.y = node.y * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
+                if (overlapsPoint(_nextPoint, true)) {
+                    //reached the _nextPoint
+                    _path.splice(0, 1);
+                    _stop();
+                    var pathEnded:Boolean = ! (_path.length > 0);
+                    if (pathEnded) {
+                        return;
+                    }
+                } else {
+                    break;
+                }
+            }
+            
+            _darkOtherPosition.x = x + origin.x;
+            _darkOtherPosition.y = y + origin.y;
+            
+            //var angleRadians:Number = FlxU.getAngle(_nextPoint, _darkOtherPosition)
+            //    * Math.PI / 180;
+            var angleRadians:Number = Math.atan2(_nextPoint.y - _darkOtherPosition.y,
+                _nextPoint.x - _darkOtherPosition.x);
+            velocity.x = maxVelocityValue * Math.cos(angleRadians);
+            velocity.y = maxVelocityValue * Math.sin(angleRadians);
+            
+        }
+        
+        public function _updateCurrentWayPoint():void {
+            var numWayPoints:int = wayPoints.length;
+            if (currentWayPoint < numWayPoints - 1) {
+                currentWayPoint += 1;
+            } else {
+                //the penultimate wayPoint
+                currentWayPoint = numWayPoints - 2;
+            }
+        }
+        
+        public function _getNextWayPoint():FlxPoint {
+            _updateGrid();
+            //let's take the first way point that is walkable
+            do {
+                //_printAlteredGrid();
+                _updateCurrentWayPoint();
+                var nextWayPoint:FlxPoint = wayPoints[currentWayPoint];
+                var nextWayPointX:int = int(nextWayPoint.x);
+                var nextWayPointY:int = int(nextWayPoint.y);
+                
+            } while(_alteredGrid[nextWayPointY][nextWayPointX] == 1);
+            
+            //trace('current way point:' + currentWayPoint);
+            //trace('next way point x:' + nextWayPoint.x);
+            //trace('next way point y:' + nextWayPoint.y);
+            return nextWayPoint;
+        }
+        
+        public function printPath():void {
+            for(var i:int = 0; i < _path.length; i++) {
+                trace('y:' + (_path[i].y + 1) + '|x:' + (_path[i].x + 1));
+            }
+        }
+        
+        public function printPath2():void {
+            trace('start: x:' + _path[0].x + '|y:' + _path[0].y);
+            trace('end: x:' + _path[_path.length - 1].x + '|y:' + _path[_path.length - 1].y);
+            for(var i:int = 0; i < _path.length; i++) {
+                trace('x:' + (_path[i].x) + '|y:' + (_path[i].y));
+            }
+            trace('==========================================');
+        }
+        
+        public function _calcPath():void {
+            var nextWayPointPosition:Object = {x : int(_nextWayPoint.x), y : int(_nextWayPoint.y)};
+            
+            //creating the path
+            pathFinder.grid = _alteredGrid;
+            var tileX:int = _calcTileX(x + origin.x, GameMap.TILE_SIZE);
+            var tileY:int = _calcTileY(y + origin.y, GameMap.TILE_SIZE);
+            var darkOtherPosition:Object = {x : tileX, y : tileY};
+            
+            _path = pathFinder.calcPath(darkOtherPosition, nextWayPointPosition);
         }
         
         override public function update():void {
             super.update();
+            _updateGrid();
+            FlxG.collide(this, PlayState.player);
+            
+            if (_path.length > 0) {
+                _calcPath();
+                //if the player is too close we "boost" the darkother
+                if (isPlayerTooClose()) {
+                    maxVelocityValue = BOOST_MAX_VELOCITY;
+                } else {
+                    maxVelocityValue = NORMAL_MAX_VELOCITY;
+                }
+                _move();
+                return;
+            }
+            
+            if (! isPlayerTooClose()) {
+                return;
+            }
+            
+            _nextWayPoint = _getNextWayPoint();
+            _calcPath();
+            _move();
+            //printPath();
             
         }
         
