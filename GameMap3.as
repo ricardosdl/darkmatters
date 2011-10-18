@@ -85,8 +85,9 @@ package {
         }
         
         public function darkMatter1Behavior():Function {
-            //this darkmatter won't do too much
-            return function():void {}
+            return function(darkMatter:DarkMatter):void {
+                //TODO: Implement the grow after the darkother finishes the path
+            }
         }
         
         public function initDarkMatters():void {
