@@ -25,7 +25,10 @@ package {
         
         public function initDarkOther():void {
             //tile x = 34, tile y = 12
-            this.darkOther = new DarkOther(34 * GameMap.TILE_SIZE, 12 * GameMap.TILE_SIZE);
+            this.darkOther = new DarkOther(34 * GameMap.TILE_SIZE,
+                12 * GameMap.TILE_SIZE, this.arrayMap);
+            this.darkOther.x += this.darkOther.origin.x;
+            this.darkOther.y += this.darkOther.origin.y;
             this.playState.add(darkOther);
         }
         
