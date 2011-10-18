@@ -52,6 +52,11 @@ package {
         
         public var maxVelocityValue:int;
         
+        /**
+         *If true the darkother hasn't reached the end of the path, otherwise...
+        */
+        public var itsOver:Boolean;
+        
         
         public function DarkOther(x:Number, y:Number, grid:Array) {
             super(x, y);
@@ -112,6 +117,7 @@ package {
             wayPoints.push(new FlxPoint(31, 24));
             wayPoints.push(new FlxPoint(38, 28));
             currentWayPoint = 0;
+            itsOver = false;
         }
         
         public function isPlayerTooClose():Boolean {
