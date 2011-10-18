@@ -12,6 +12,13 @@ package {
         public var maps:Maps;
 	
 	public static var gameMap:GameMap;
+	
+	public static var playState:PlayState;
+	
+	public function PlayState() {
+	    super();
+	    playState = this;
+	}
         
         override public function create():void {
             gameMap = getGameMap(GameState.currentLevel);
