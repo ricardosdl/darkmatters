@@ -85,8 +85,31 @@ package {
         }
         
         public function darkMatter1Behavior():Function {
+            var waitTime:int = 4;
+            var currentTime:Number = 0;
+            var radiusStepIncreased:Boolean = false;
+            var darkMatterIsGrowing:Boolean = false;
+            
             return function(darkMatter:DarkMatter):void {
-                //TODO: Implement the grow after the darkother finishes the path
+                if (darkOther.itsOver && ! darkMatterIsGrowing) {
+                    //here we start growing slowly
+                    darkMatter.radiusStep = 15;
+                    darkMatter.changeRadius(900);
+                    darkMatterIsGrowing = true;
+                    //let's show the portal
+                    portal.alive = true;
+                    portal.exists = true;
+                }
+                
+                if (darkMatterIsGrowing && ! radiusStepIncreased) {
+                    currentTime += FlxG.elapsed;
+                    //we wait some time to tell the darkMatter to grow faster.
+                    if (currentTime > waitTime) {
+                        darkMatter.radiusStep = 50;
+                        radiusStepIncreased = true;
+                    }
+                }
+                
             }
         }
         
