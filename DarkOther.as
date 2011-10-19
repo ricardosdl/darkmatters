@@ -206,29 +206,15 @@ package {
             //removes the first because it's the actual node where the darkother is.
             _path.splice(0, 1);
             
-            while(_path.length > 0) {
-                var node:Object = _path[0];
-                //this is the point that the darkohter must reach
-                _nextPoint.x = node.x * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
-                _nextPoint.y = node.y * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
-                if (overlapsPoint(_nextPoint, true)) {
-                    //reached the _nextPoint
-                    _path.splice(0, 1);
-                    _stop();
-                    var pathEnded:Boolean = ! (_path.length > 0);
-                    if (pathEnded) {
-                        return;
-                    }
-                } else {
-                    break;
-                }
-            }
-            
+            var node:Object = _path[0];
+            //this is the point that the darkohter must reach
+            _nextPoint.x = node.x * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
+            _nextPoint.y = node.y * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
+                
             _darkOtherPosition.x = x + origin.x;
             _darkOtherPosition.y = y + origin.y;
             
-            //var angleRadians:Number = FlxU.getAngle(_nextPoint, _darkOtherPosition)
-            //    * Math.PI / 180;
+            //calculate the angle difference and set the velocity according to it
             var angleRadians:Number = Math.atan2(_nextPoint.y - _darkOtherPosition.y,
                 _nextPoint.x - _darkOtherPosition.x);
             velocity.x = maxVelocityValue * Math.cos(angleRadians);
@@ -306,6 +292,12 @@ package {
                 }
                 _move();
                 return;
+            }
+            
+            //we reached the last way point
+            if (currentWayPoint == 8) {
+                itsOver = true;
+                kill();
             }
             
             if (! isPlayerTooClose()) {
