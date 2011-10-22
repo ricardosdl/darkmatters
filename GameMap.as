@@ -5,6 +5,7 @@ package {
     public class GameMap {
         
         public static const TILE_SIZE:int = 16;
+        public static const HALF_TILE_SIZE:int = int(TILE_SIZE / 2);
         
         [Embed(source="data/gfx/portal.png")]
         public var pngPortal:Class;
