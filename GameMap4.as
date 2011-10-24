@@ -4,8 +4,12 @@ package {
     
     public class GameMap4 extends GameMap {
         
+        public const MAX_RAIDUS_DARKMATTER_1:int = 40;
+        
         public var numberOfDarkMatters:uint = 2;
         public var darkMattersPositions:Array;
+        
+        public var key:Key;
         
         public function GameMap4(level:uint, playState:FlxState) {
             super(level, playState);
@@ -17,6 +21,14 @@ package {
             initDarkMatters();
             initPortal();
             initInitialPlayerPosition();
+            initKey();
+        }
+        
+        public function initKey():void {
+            //tileX = 19, tileY = 15
+            this.key = new Key(19 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE,
+                15 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE, this);
+            this.playState.add(key);
         }
         
         public function initInitialPlayerPosition():void {
@@ -37,23 +49,80 @@ package {
         }
         
         public function darkMatter1Behavior():Function {
-            //TODO implement this darkmatter
+            /**
+             *What the hell is that?
+             *It's just a lista of radius sizes that the darkmatter will have while
+             *shrinking. The sizes are relative to the MAX_RAIDUS_DARKMATTER_1.
+            */
+            var radiusSizes:Array = [1 * MAX_RAIDUS_DARKMATTER_1,
+                .75 * MAX_RAIDUS_DARKMATTER_1,
+                1 * MAX_RAIDUS_DARKMATTER_1,
+                .50 * MAX_RAIDUS_DARKMATTER_1,
+                .75 * MAX_RAIDUS_DARKMATTER_1,
+                .25 * MAX_RAIDUS_DARKMATTER_1,
+                .50 * MAX_RAIDUS_DARKMATTER_1,
+                0 * MAX_RAIDUS_DARKMATTER_1,
+                .25 * MAX_RAIDUS_DARKMATTER_1,
+                0 * MAX_RAIDUS_DARKMATTER_1];
+            /**
+             *This var indicates at which size the darkmatter have or is going to have
+            */
+            var radiusSizeId:int = 0;
+            
             return function(darkMatter:DarkMatter):void {
-                //not much to do for now
+                var currentRadius:Number = darkMatter.currentRadius;
+                
+                if (Math.abs(currentRadius) == radiusSizes[radiusSizeId]) {
+                    if (radiusSizeId < 9) {
+                        radiusSizeId += 1;
+                    } else {
+                        radiusSizeId = 0;
+                    }
+                    if (Math.abs(currentRadius) == 0) {
+                        //restore the darkmatter to it's original position
+                        darkMatter.x = darkMattersPositions[0].x;
+                        darkMatter.y = darkMattersPositions[0].y;
+                    }
+                }
+                
+                if (! darkMatter.isChangingRadius()) {
+                    var amountToChange:Number = radiusSizes[radiusSizeId] - currentRadius;
+                    darkMatter.changeRadius(radiusSizes[radiusSizeId] - currentRadius);
+                    if (amountToChange < 0) {
+                        darkMatter.radiusStep = 20;
+                    } else {
+                        darkMatter.radiusStep = 40;
+                    }
+                }
             }
         }
         
         public function darkMatter2Behavior():Function {
+            var maxRadius:int = 20;
+            
             //TODO implement this darkmatter
             return function(darkMatter:DarkMatter):void {
-                //not much to do for now
+                var currentRadius:Number = darkMatter.currentRadius;
+                if (! darkMatter.isChangingRadius()) {
+                    if (Math.abs(currentRadius) == maxRadius) {
+                        darkMatter.changeRadius(-1 * maxRadius);
+                    } else {
+                        darkMatter.changeRadius(maxRadius);
+                    }
+                    if (Math.abs(currentRadius) == 0) {
+                        //restoring the original position
+                        darkMatter.x = darkMattersPositions[1].x;
+                        darkMatter.y = darkMattersPositions[1].y;
+                    }
+                }
+                
             }
         }
         
         public function initDarkMatters():void {
             var position1:FlxPoint = darkMattersPositions[0];
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
-                darkMatter1Behavior(), 30);
+                darkMatter1Behavior(), 10);
             
             var position2:FlxPoint = darkMattersPositions[1];
             var darkMatter2:DarkMatter = new DarkMatter(position2.x, position2.y,
@@ -68,9 +137,9 @@ package {
             
             var halfTileSize:Number = GameMap.TILE_SIZE / 2;
             
-            //tileX = 18, tileY = 14
-            var position1:FlxPoint = new FlxPoint(18 * GameMap.TILE_SIZE + halfTileSize,
-                14 * GameMap.TILE_SIZE + halfTileSize);
+            //tileX = 17, tileY = 13
+            var position1:FlxPoint = new FlxPoint(17 * GameMap.TILE_SIZE + halfTileSize,
+                13 * GameMap.TILE_SIZE + halfTileSize);
             darkMattersPositions.push(position1);
             
             //tileX = 20, tileY = 16
