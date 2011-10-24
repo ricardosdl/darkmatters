@@ -16,6 +16,7 @@ package {
         }
         
         override public function update():void {
+            super.update();
             if (FlxCollision.pixelPerfectCheck(PlayState.player, this)) {
                 gameMap.portal.alive = true;
                 gameMap.portal.exists = true;
