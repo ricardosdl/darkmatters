@@ -11,7 +11,7 @@ package {
         
         public var maps:Maps;
 	
-	public static var gameMap:GameMap;
+	public var gameMap:GameMap;
 	
 	public static var playState:PlayState;
 	
@@ -22,11 +22,7 @@ package {
         
         override public function create():void {
             gameMap = getGameMap(GameState.currentLevel);
-	    add(gameMap.map);
-            
-            add(gameMap.darkMatters);
-	    
-	    add(gameMap.portal);
+	    gameMap.addGameMapElements();
 	    
 	    player = new Player(gameMap.initialPlayerPosition.x, gameMap.initialPlayerPosition.y);
             add(player);
