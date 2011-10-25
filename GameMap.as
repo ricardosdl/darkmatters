@@ -27,6 +27,11 @@ package {
             this.playState = playState;
         }
         
+        /**
+         *This method is overrided in the subclasses.
+        */
+        public function addGameMapElements():void {}
+        
     }
     
 }
