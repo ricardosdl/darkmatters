@@ -19,6 +19,12 @@ package {
             initInitialPlayerPosition();
         }
         
+        override public function addGameMapElements():void {
+            playState.add(this.map);
+            playState.add(this.darkMatters);
+            playState.add(this.portal);
+        }
+        
         public function initInitialPlayerPosition():void {
             //poistion is tileX = 2 and tileY = 2
             this.initialPlayerPosition = new FlxPoint(2 * GameMap.TILE_SIZE, 2 * GameMap.TILE_SIZE);

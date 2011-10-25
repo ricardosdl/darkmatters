@@ -23,13 +23,19 @@ package {
             initDarkOther();
         }
         
+        override public function addGameMapElements():void {
+            playState.add(this.map);
+            playState.add(this.darkMatters);
+            playState.add(this.portal);
+            playState.add(darkOther);
+        }
+        
         public function initDarkOther():void {
             //tile x = 34, tile y = 12
             this.darkOther = new DarkOther(34 * GameMap.TILE_SIZE,
                 12 * GameMap.TILE_SIZE, this.arrayMap);
             this.darkOther.x += this.darkOther.origin.x;
             this.darkOther.y += this.darkOther.origin.y;
-            this.playState.add(darkOther);
         }
         
         public function initArrayMap():void {
@@ -81,6 +87,8 @@ package {
             this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
             this.portal.alive = false;
             this.portal.exists = false;
+            
+            this.playState.add(this.portal);
             
         }
         

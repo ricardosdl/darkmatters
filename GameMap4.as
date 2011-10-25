@@ -11,6 +11,8 @@ package {
         
         public var key:Key;
         
+        public var pushableBrick:PushableBrick;
+        
         public function GameMap4(level:uint, playState:FlxState) {
             super(level, playState);
             init();
@@ -19,16 +21,29 @@ package {
         public function init():void {
             initDarkMattersPosition();
             initDarkMatters();
+            initPushableBrick();
             initPortal();
             initInitialPlayerPosition();
             initKey();
+        }
+        
+        override public function addGameMapElements():void {
+            playState.add(this.map);
+            playState.add(this.darkMatters);
+            playState.add(this.portal);
+            playState.add(this.pushableBrick);
+            playState.add(this.key);
+        }
+        
+        public function initPushableBrick():void {
+            //position tileX = 25, tileY = 13
+            this.pushableBrick = new PushableBrick(25 * GameMap.TILE_SIZE, 13 * GameMap.TILE_SIZE, this);
         }
         
         public function initKey():void {
             //tileX = 19, tileY = 15
             this.key = new Key(19 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE,
                 15 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE, this);
-            this.playState.add(key);
         }
         
         public function initInitialPlayerPosition():void {
