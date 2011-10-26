@@ -12,9 +12,12 @@ package {
         public function PushableBrick(x:Number, y:Number, gameMap:GameMap) {
             super(x, y, pushableBrickImg);
             this.gameMap = gameMap;
+            drag.x = 60;
+            drag.y = 60;
         }
         
         override public function update():void {
+            FlxG.collide(PlayState.player, this);
             super.update();
         }
         
