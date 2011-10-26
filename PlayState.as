@@ -53,6 +53,7 @@ package {
 	    //trace('player velocity x:' + player.velocity.x);
 	    //trace('player velocity y:' + player.velocity.y);
             FlxG.collide(gameMap.map, player);
+	    FlxG.collide(gameMap.map, gameMap.mapColliders);
 	    playerDarkMattersColisions(player, gameMap.darkMatters.members);
 	    playerPortalCollisions();
             input();
