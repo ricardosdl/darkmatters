@@ -38,6 +38,7 @@ package {
         public function initPushableBrick():void {
             //position tileX = 25, tileY = 13
             this.pushableBrick = new PushableBrick(25 * GameMap.TILE_SIZE, 13 * GameMap.TILE_SIZE, this);
+            this.mapColliders.add(this.pushableBrick);
         }
         
         public function initKey():void {

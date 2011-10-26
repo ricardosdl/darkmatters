@@ -15,6 +15,11 @@ package {
         public var portal:FlxSprite;
         public var playState:FlxState;
         /**
+         *Here we put things that we want to collide with the map
+        */
+        public var mapColliders:FlxGroup;
+        
+        /**
          *This attribute is used to store an array representation of the map.
         */
         public var arrayMap:Array;
@@ -23,6 +28,7 @@ package {
         
         public function GameMap(level:uint, playState:FlxState) {
             darkMatters = new FlxGroup();
+            mapColliders = new FlxGroup();
             map = Maps.getMap(level);
             this.playState = playState;
         }
