@@ -1,6 +1,7 @@
 package {
     
     import org.flixel.*;
+    import org.flixel.plugin.photonstorm.*;
     
     public class GameMap4 extends GameMap {
         
@@ -70,7 +71,8 @@ package {
              *It's just a lista of radius sizes that the darkmatter will have while
              *shrinking. The sizes are relative to the MAX_RAIDUS_DARKMATTER_1.
             */
-            var radiusSizes:Array = [1 * MAX_RAIDUS_DARKMATTER_1,
+            var radiusSizes:Array = [
+                1 * MAX_RAIDUS_DARKMATTER_1,
                 .75 * MAX_RAIDUS_DARKMATTER_1,
                 1 * MAX_RAIDUS_DARKMATTER_1,
                 .50 * MAX_RAIDUS_DARKMATTER_1,
@@ -88,7 +90,26 @@ package {
             return function(darkMatter:DarkMatter):void {
                 var currentRadius:Number = darkMatter.currentRadius;
                 
+                //if the darkMatter collides with the pushableBrick
+                if (FlxCollision.pixelPerfectCheck(darkMatter, pushableBrick)) {
+                    //we will try to make the darkMatter shrink
+                    //first we select a radiusSizeId that has a radius size smaller than
+                    //the actual one
+                    if (radiusSizeId != 9) {
+                        var evenRadiusSizeId:Boolean = (radiusSizeId % 2) == 0;
+                        //the even radiusSizeId are greater than the odd ones.
+                        if (evenRadiusSizeId) {
+                            radiusSizeId += 1;
+                        } else {
+                            radiusSizeId += 2;
+                        }
+                    }
+                    _changeDarkMatterRadius(radiusSizes, radiusSizeId, currentRadius, darkMatter);
+                    //darkMatter.changeRadius(darkMatter.previousRadius - currentRadius); --might work
+                }
+                
                 if (Math.abs(currentRadius) == radiusSizes[radiusSizeId]) {
+                    //the radius sizes goes from the largest size to the smallest one, 0
                     if (radiusSizeId < 9) {
                         radiusSizeId += 1;
                     } else {
@@ -102,23 +123,35 @@ package {
                 }
                 
                 if (! darkMatter.isChangingRadius()) {
-                    var amountToChange:Number = radiusSizes[radiusSizeId] - currentRadius;
-                    darkMatter.changeRadius(radiusSizes[radiusSizeId] - currentRadius);
-                    if (amountToChange < 0) {
-                        darkMatter.radiusStep = 20;
-                    } else {
-                        darkMatter.radiusStep = 40;
-                    }
+                    _changeDarkMatterRadius(radiusSizes, radiusSizeId, currentRadius, darkMatter);
                 }
             }
         }
         
+        public function _changeDarkMatterRadius(radiusSizes:Array, radiusSizeId:int,
+            currentRadius:Number, darkMatter:DarkMatter):void {
+            //radiusSizes[radiusSizeId] represents the next radius, it can be smaller
+            //or greater than the currentRadius
+            var amountToChange:Number = radiusSizes[radiusSizeId] - currentRadius;
+            darkMatter.changeRadius(amountToChange);
+            if (amountToChange < 0) {
+                darkMatter.radiusStep = 40;
+            } else {
+                darkMatter.radiusStep = 40;
+            }
+        }
+        
         public function darkMatter2Behavior():Function {
-            var maxRadius:int = 20;
+            var maxRadius:int = 40;
             
             //TODO implement this darkmatter
             return function(darkMatter:DarkMatter):void {
                 var currentRadius:Number = darkMatter.currentRadius;
+                
+                if (FlxCollision.pixelPerfectCheck(darkMatter, pushableBrick)) {
+                    darkMatter.changeRadius(-1 * currentRadius);
+                }
+                
                 if (! darkMatter.isChangingRadius()) {
                     if (Math.abs(currentRadius) == maxRadius) {
                         darkMatter.changeRadius(-1 * maxRadius);
@@ -142,7 +175,7 @@ package {
             
             var position2:FlxPoint = darkMattersPositions[1];
             var darkMatter2:DarkMatter = new DarkMatter(position2.x, position2.y,
-                darkMatter2Behavior(), 30);
+                darkMatter2Behavior(), 40);
             
             darkMatters.add(darkMatter1)
             darkMatters.add(darkMatter2);
