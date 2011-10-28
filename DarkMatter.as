@@ -93,6 +93,13 @@ package {
             return radiusStep * FlxG.elapsed;
         }
         
+        /**
+         *Tells if the darkMatter is shrinking.
+        */
+        public function isShrinking():Boolean {
+            return _nextRadius < currentRadius;
+        }
+        
         override public function update():void {
             _darkMatterBehavior(this);
             if (isChangingRadius()) {
