@@ -16,6 +16,9 @@ package {
         [Embed(source='data/maps/darkness_4.csv', mimeType='application/octet-stream')]
         public static var csvMap4:Class;
         
+        [Embed(source='data/maps/darkness_5.csv', mimeType='application/octet-stream')]
+        public static var csvMap5:Class;
+        
         [Embed(source="data/gfx/levels_tiles.png")]
         public static var pngTilesLevels:Class;
         
@@ -35,6 +38,8 @@ package {
                 map.loadMap(new Maps.csvMap3(), Maps.pngTilesLevels, 16, 16);
             } else if (level == 4) {
                 map.loadMap(new Maps.csvMap4(), Maps.pngTilesLevels, 16, 16);
+            } else if (level == 5) {
+                map.loadMap(new Maps.csvMap5(), Maps.pngTilesLevels, 16, 16);
             }
             return map;
         }
