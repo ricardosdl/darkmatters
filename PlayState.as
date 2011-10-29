@@ -44,6 +44,8 @@ package {
 		currentGameMap = new GameMap3(level, this);
 	    } else if (level == 4) {
 		currentGameMap = new GameMap4(level, this);
+	    } else if (level == 5) {
+		currentGameMap = new GameMap5(level, this);
 	    }
 	    return currentGameMap;
 	}
@@ -54,7 +56,7 @@ package {
 	    //trace('player velocity y:' + player.velocity.y);
             FlxG.collide(gameMap.map, player);
 	    FlxG.collide(gameMap.map, gameMap.mapColliders);
-	    playerDarkMattersColisions(player, gameMap.darkMatters.members);
+	    playerDarkMattersColisions(player, gameMap.darkMatters);
 	    playerPortalCollisions();
             input();
         }
@@ -65,10 +67,10 @@ package {
 	    }
 	}
 	
-	public function playerDarkMattersColisions(player:FlxSprite, darkMatters:Array):void {
+	public function playerDarkMattersColisions(player:FlxSprite, darkMatters:FlxGroup):void {
 	    var sizeDarkMatters:int = darkMatters.length;
 	    for(var i:int = sizeDarkMatters - 1; i >= 0; i--) {
-		var darkMatter:FlxSprite = darkMatters[i] as FlxSprite;
+		var darkMatter:FlxSprite = darkMatters.members[i] as FlxSprite;
 		if (FlxCollision.pixelPerfectCheck(player, darkMatter)) {
 		    trace('game over');
 		}
