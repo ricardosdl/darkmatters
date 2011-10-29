@@ -44,8 +44,8 @@ package {
         
         public function initKey():void {
             //tileX = 19, tileY = 15
-            this.key = new Key(19 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE,
-                15 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE, this);
+            this.key = new Key(18 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE,
+                14 * GameMap.TILE_SIZE + GameMap.HALF_TILE_SIZE, this);
         }
         
         public function initInitialPlayerPosition():void {
@@ -163,6 +163,12 @@ package {
                         darkMatter.x = darkMattersPositions[1].x;
                         darkMatter.y = darkMattersPositions[1].y;
                     }
+                }
+                
+                if (darkMatter.isShrinking()) {
+                    darkMatter.radiusStep = 60;
+                } else {
+                    darkMatter.radiusStep = 40;
                 }
                 
             }
