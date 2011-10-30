@@ -7,6 +7,8 @@ package {
         public var numberOfDarkMatters:uint = 3;
         public var darkMattersPositions:Array;
         
+        public var pathFinder:PathFinder;
+        
         public function GameMap5(level:uint, playState:FlxState) {
             super(level, playState);
             init();
@@ -18,12 +20,53 @@ package {
             //initPushableBrick();
             initPortal();
             initInitialPlayerPosition();
+            initArrayMap();
+            initPathFinder();
         }
         
         override public function addGameMapElements():void {
             playState.add(this.map);
             playState.add(this.portal);
             playState.add(this.darkMatters);
+        }
+        
+        public function initPathFinder():void {
+            pathFinder = new PathFinder(this.arrayMap);
+        }
+        
+        public function initArrayMap():void {
+            this.arrayMap = [
+                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,1],
+                    [1,0,1,1,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1],
+                    [1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,1,1,1,1,1,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,1],
+                    [1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,1,1,1,0,0,1,1,1,0,0,1,1,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,1,0,1,0,0,0,0,0,0,1,1,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1,1,0,1,0,1,0,0,0,0,0,1,1,0,0,1,1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1],
+                    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],
+                    [1,0,0,0,1,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,0,1],
+                    [1,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1],
+                    [1,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ];
         }
         
         public function initInitialPlayerPosition():void {
@@ -56,7 +99,7 @@ package {
                 var currentRadius:Number = darkMatter.currentRadius;
                 
                 if (! darkMatter.isChangingRadius()) {
-                    if (Math.abs(currentRadius) == maxRadius) {
+                    if (currentRadius >= maxRadius) {
                         darkMatter.changeRadius(-1 * maxRadius);
                     } else {
                         darkMatter.changeRadius(maxRadius);
@@ -109,6 +152,76 @@ package {
             }
         }
         
+        public function darkMatter2Behavior():Function {
+            var wayPoints:Array = new Array();
+            wayPoints.push(new FlxPoint(24, 2));
+            wayPoints.push(new FlxPoint(3, 4));
+            wayPoints.push(new FlxPoint(3, 20));
+            wayPoints.push(new FlxPoint(17, 27));
+            wayPoints.push(new FlxPoint(34, 18));
+            wayPoints.push(new FlxPoint(36, 9));
+            
+            var numWayPoints:int = wayPoints.length;
+            var currentPathId:uint = 0;
+            var path:Array;
+            var start:Object = new Object();
+            var end:Object = new Object();
+            var nextPoint:FlxPoint = new FlxPoint();
+            var currentPoint:FlxPoint = new FlxPoint();
+            
+            var darkMatterVelocity:Number = 60;
+            var maxRadius:Number = 40;
+            
+            return function(darkMatter:DarkMatter):void {
+                
+                if (! darkMatter.isChangingRadius()) {
+                    if (darkMatter.currentRadius >= maxRadius) {
+                        darkMatter.changeRadius(-1 * maxRadius);
+                    } else {
+                        darkMatter.changeRadius(maxRadius);
+                    }
+                }
+                
+                start.x = int((darkMatter.x + darkMatter.origin.x) / GameMap.TILE_SIZE);
+                start.y = int((darkMatter.y + darkMatter.origin.y) / GameMap.TILE_SIZE);
+                
+                end.x = int(wayPoints[currentPathId].x);
+                end.y = int(wayPoints[currentPathId].y);
+                
+                path = pathFinder.calcPath(start, end);
+                //just one node in the path means that we are already
+                //at the end node
+                if (path.length == 1) {
+                    darkMatter.velocity.x = 0;
+                    darkMatter.velocity.y = 0;
+                    if (currentPathId < numWayPoints - 1) {
+                        currentPathId++;
+                    } else {
+                        currentPathId = 0;
+                    }
+                    return;
+                }
+                
+                //removes the first because it's the actual node where the darkother is.
+                path.splice(0, 1);
+                
+                var node:Object = path[0];
+                //this is the point that the darkohter must reach
+                nextPoint.x = node.x * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
+                nextPoint.y = node.y * GameMap.TILE_SIZE + (GameMap.TILE_SIZE / 2);
+                    
+                currentPoint.x = darkMatter.x + darkMatter.origin.x;
+                currentPoint.y = darkMatter.y + darkMatter.origin.y;
+                
+                //calculate the angle difference and set the velocity according to it
+                var angleRadians:Number = Math.atan2(nextPoint.y - currentPoint.y,
+                    nextPoint.x - currentPoint.x);
+                darkMatter.velocity.x = darkMatterVelocity * Math.cos(angleRadians);
+                darkMatter.velocity.y = darkMatterVelocity * Math.sin(angleRadians);
+                
+            }
+        }
+        
         public function initDarkMatters():void {
             var position1:FlxPoint = darkMattersPositions[0];
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
@@ -117,13 +230,13 @@ package {
             
             var position2:FlxPoint = darkMattersPositions[1];
             var darkMatter2:DarkMatter = new DarkMatter(position2.x, position2.y,
-                function(darkMatter:DarkMatter):void{});
-            darkMatter2.changeRadius(15);
+                darkMatter2Behavior());
+            //darkMatter2.changeRadius(15);
             
             var position3:FlxPoint = darkMattersPositions[2];
             var darkMatter3:DarkMatter = new DarkMatter(position3.x, position3.y,
                 function(darkMatter:DarkMatter):void{});
-            darkMatter3.changeRadius(15);
+            //darkMatter3.changeRadius(15);
             
             darkMatters.add(darkMatter1);
             darkMatters.add(darkMatter2);
