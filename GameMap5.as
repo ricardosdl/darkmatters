@@ -41,21 +41,89 @@ package {
             this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
         }
         
+        public function darkMatter1Behavior():Function {
+            var darkMatterCurrentWayPoint:uint = 1;
+            
+            var darkMatterMaxX:Number = 208;
+            var darkMatterMaxY:Number = 320;
+            
+            var darkMatterMinX:Number = 160;
+            var darkMatterMinY:Number = 240;
+            
+            var maxRadius:Number = 40;
+            
+            return function(darkMatter:DarkMatter):void {
+                var currentRadius:Number = darkMatter.currentRadius;
+                
+                if (! darkMatter.isChangingRadius()) {
+                    if (Math.abs(currentRadius) == maxRadius) {
+                        darkMatter.changeRadius(-1 * maxRadius);
+                    } else {
+                        darkMatter.changeRadius(maxRadius);
+                    }
+                }
+                
+                //the darkMatter  will dislocate around the blocks that surrounds
+                //the portal, each way point is one of the corners of the rectangle
+                
+                //indicating the velocities according to each way point
+                if (darkMatterCurrentWayPoint == 1) {
+                    darkMatter.velocity.x = 20;
+                    darkMatter.velocity.y = 0;
+                } else if (darkMatterCurrentWayPoint == 2) {
+                    darkMatter.velocity.y = 20;
+                    darkMatter.velocity.x = 0;
+                } else if (darkMatterCurrentWayPoint == 3) {
+                    darkMatter.velocity.x = -20;
+                    darkMatter.velocity.y = 0;
+                } else if (darkMatterCurrentWayPoint == 0) {
+                    darkMatter.velocity.y = -20;
+                    darkMatter.velocity.x = 0;
+                }
+                
+                var darkMatterXCenter:Number = darkMatter.x + darkMatter.origin.x;
+                var darkMatterYCenter:Number = darkMatter.y + darkMatter.origin.y;
+                
+                if (darkMatterCurrentWayPoint == 1) {
+                    if (darkMatterXCenter >= darkMatterMaxX) {
+                        darkMatter.x = darkMatterMaxX - darkMatter.origin.x;
+                        darkMatterCurrentWayPoint = 2;
+                    }
+                } else if (darkMatterCurrentWayPoint == 2) {
+                    if (darkMatterYCenter >= darkMatterMaxY) {
+                        darkMatter.y = darkMatterMaxY - darkMatter.origin.y;
+                        darkMatterCurrentWayPoint = 3;
+                    }
+                } else if (darkMatterCurrentWayPoint == 3) {
+                    if (darkMatterXCenter <= darkMatterMinX) {
+                        darkMatter.x = darkMatterMinX - darkMatter.origin.x;
+                        darkMatterCurrentWayPoint = 0;
+                    }
+                } else if (darkMatterCurrentWayPoint == 0) {
+                    if (darkMatterYCenter <= darkMatterMinY) {
+                        darkMatter.y = darkMatterMinY - darkMatter.origin.y;
+                        darkMatterCurrentWayPoint = 1;
+                    }
+                }
+                
+            }
+        }
+        
         public function initDarkMatters():void {
             var position1:FlxPoint = darkMattersPositions[0];
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
-                function(darkMatter:DarkMatter):void{});
-            trace(darkMatter1);
+                darkMatter1Behavior());
+            //darkMatter1.changeRadius(15);
             
             var position2:FlxPoint = darkMattersPositions[1];
             var darkMatter2:DarkMatter = new DarkMatter(position2.x, position2.y,
                 function(darkMatter:DarkMatter):void{});
-            trace(darkMatter2);
+            darkMatter2.changeRadius(15);
             
             var position3:FlxPoint = darkMattersPositions[2];
             var darkMatter3:DarkMatter = new DarkMatter(position3.x, position3.y,
                 function(darkMatter:DarkMatter):void{});
-            trace(darkMatter3);
+            darkMatter3.changeRadius(15);
             
             darkMatters.add(darkMatter1);
             darkMatters.add(darkMatter2);
@@ -69,9 +137,9 @@ package {
             
             var halfTileSize:Number = GameMap.TILE_SIZE / 2;
             
-            //tileX = 10, tileY = 14
-            var position1:FlxPoint = new FlxPoint(10 * GameMap.TILE_SIZE + halfTileSize,
-                14 * GameMap.TILE_SIZE + halfTileSize);
+            //tileX = 10, tileY = 15
+            var position1:FlxPoint = new FlxPoint(10 * GameMap.TILE_SIZE,
+                15 * GameMap.TILE_SIZE);
             darkMattersPositions.push(position1);
             
             //tileX = 36, tileY = 9
