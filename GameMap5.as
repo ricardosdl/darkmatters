@@ -22,8 +22,8 @@ package {
         
         override public function addGameMapElements():void {
             playState.add(this.map);
-            playState.add(this.darkMatters);
             playState.add(this.portal);
+            playState.add(this.darkMatters);
         }
         
         public function initInitialPlayerPosition():void {
