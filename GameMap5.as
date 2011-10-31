@@ -9,6 +9,12 @@ package {
         
         public var pathFinder:PathFinder;
         
+        /**
+         *It's a brick that doesn't collide with the player allowing her to
+         *pass through.
+        */
+        public var ghostBrick:GhostBrick;
+        
         public function GameMap5(level:uint, playState:FlxState) {
             super(level, playState);
             init();
@@ -17,15 +23,21 @@ package {
         public function init():void {
             initDarkMattersPosition();
             initDarkMatters();
-            //initPushableBrick();
+            initGhostBrick();
             initPortal();
             initInitialPlayerPosition();
             initArrayMap();
             initPathFinder();
         }
         
+        public function initGhostBrick():void {
+            //tile X = 10, tile Y = 16
+            ghostBrick = new GhostBrick(10 * GameMap.TILE_SIZE, 16 * GameMap.TILE_SIZE);
+        }
+        
         override public function addGameMapElements():void {
             playState.add(this.map);
+            playState.add(this.ghostBrick);
             playState.add(this.portal);
             playState.add(this.darkMatters);
         }
