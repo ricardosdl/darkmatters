@@ -152,15 +152,7 @@ package {
             }
         }
         
-        public function darkMatter2Behavior():Function {
-            var wayPoints:Array = new Array();
-            wayPoints.push(new FlxPoint(24, 2));
-            wayPoints.push(new FlxPoint(3, 4));
-            wayPoints.push(new FlxPoint(3, 20));
-            wayPoints.push(new FlxPoint(17, 27));
-            wayPoints.push(new FlxPoint(34, 18));
-            wayPoints.push(new FlxPoint(36, 9));
-            
+        public function darkMatter2And3Behavior(wayPoints:Array):Function {
             var numWayPoints:int = wayPoints.length;
             var currentPathId:uint = 0;
             var path:Array;
@@ -225,18 +217,31 @@ package {
         public function initDarkMatters():void {
             var position1:FlxPoint = darkMattersPositions[0];
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
-                darkMatter1Behavior());
-            //darkMatter1.changeRadius(15);
+                darkMatter1Behavior(), 30);
+            
+            var wayPointsDarkMatter2:Array = new Array();
+            wayPointsDarkMatter2.push(new FlxPoint(24, 2));
+            wayPointsDarkMatter2.push(new FlxPoint(3, 4));
+            wayPointsDarkMatter2.push(new FlxPoint(3, 20));
+            wayPointsDarkMatter2.push(new FlxPoint(17, 27));
+            wayPointsDarkMatter2.push(new FlxPoint(34, 18));
+            wayPointsDarkMatter2.push(new FlxPoint(36, 9));
             
             var position2:FlxPoint = darkMattersPositions[1];
             var darkMatter2:DarkMatter = new DarkMatter(position2.x, position2.y,
-                darkMatter2Behavior());
-            //darkMatter2.changeRadius(15);
+                darkMatter2And3Behavior(wayPointsDarkMatter2));
+            
+            var wayPointsDarkMatter3:Array = new Array();
+            wayPointsDarkMatter3.push(new FlxPoint(14, 13));
+            wayPointsDarkMatter3.push(new FlxPoint(25, 8));
+            wayPointsDarkMatter3.push(new FlxPoint(38, 14));
+            wayPointsDarkMatter3.push(new FlxPoint(23, 22));
+            wayPointsDarkMatter3.push(new FlxPoint(7, 24));
+            wayPointsDarkMatter3.push(new FlxPoint(1, 28));
             
             var position3:FlxPoint = darkMattersPositions[2];
             var darkMatter3:DarkMatter = new DarkMatter(position3.x, position3.y,
-                function(darkMatter:DarkMatter):void{});
-            //darkMatter3.changeRadius(15);
+                darkMatter2And3Behavior(wayPointsDarkMatter3));
             
             darkMatters.add(darkMatter1);
             darkMatters.add(darkMatter2);
