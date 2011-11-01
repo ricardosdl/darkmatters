@@ -229,7 +229,7 @@ package {
         public function initDarkMatters():void {
             var position1:FlxPoint = darkMattersPositions[0];
             var darkMatter1:DarkMatter = new DarkMatter(position1.x, position1.y,
-                darkMatter1Behavior(), 30);
+                darkMatter1Behavior(), 45);
             
             var wayPointsDarkMatter2:Array = new Array();
             wayPointsDarkMatter2.push(new FlxPoint(24, 2));
