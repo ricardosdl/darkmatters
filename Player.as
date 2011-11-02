@@ -43,23 +43,24 @@ package {
                 }
             }
             
+        }
+        
+        override public function update():void {
+            super.update();
+            input();
+            
             if ((velocity.x != 0) || (velocity.y != 0)) {
                 play("walk");
             } else {
                 play("idle");
             }
             
-            if (velocity.x > 0) {
+            if (acceleration.x > 0) {
                 facing = RIGHT;
-            } else if (velocity.x < 0) {
+            } else if (acceleration.x < 0) {
                 facing = LEFT;
             }
             
-        }
-        
-        override public function update():void {
-            super.update();
-            input();
         }
         
     }
