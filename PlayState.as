@@ -46,6 +46,8 @@ package {
 		currentGameMap = new GameMap4(level, this);
 	    } else if (level == 5) {
 		currentGameMap = new GameMap5(level, this);
+	    } else if (level == 6) {
+		currentGameMap = new GameMap6(level, this);
 	    }
 	    return currentGameMap;
 	}
