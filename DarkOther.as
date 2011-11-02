@@ -10,6 +10,9 @@ package {
         public static const ACCELERATION:int = 150;
         public static const MIN_PLAYER_DISTANCE:Number = 55;
         
+        [Embed(source="data/gfx/darkother_sprites.png")]
+        private var imgDarkOther:Class;
+        
         /**
          *These are the tiles locations where the DarkOther must pass. The DarkOther
          *will as well wait at these locations for the player.
@@ -62,7 +65,10 @@ package {
             super(x, y);
             _originalGrid = grid;
             _copyOriginalGrid();
-            makeGraphic(10,12,0x22bb1111);
+            //makeGraphic(10,12,0x22bb1111);
+            loadGraphic(imgDarkOther, true, true, 10, 12);
+            addAnimation("idle", [4], 0, false);
+            addAnimation("walk", [0, 1, 2, 3], 10, true);
             maxVelocityValue = NORMAL_MAX_VELOCITY;
             maxVelocity.x = maxVelocityValue;
             maxVelocity.y = maxVelocityValue;
@@ -279,6 +285,19 @@ package {
         
         override public function update():void {
             super.update();
+            
+            if ((velocity.x != 0) || (velocity.y != 0)) {
+                play("walk");
+            } else {
+                play("idle");
+            }
+            
+            if (velocity.x > 0) {
+                facing = RIGHT;
+            } else if (velocity.x < 0) {
+                facing = LEFT;
+            }
+            
             _updateGrid();
             FlxG.collide(this, PlayState.player);
             
