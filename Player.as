@@ -8,10 +8,16 @@ package {
         public static const ACCELERATION:int = 150;
         public static const DRAG:int = 2 * MAX_VELOCITY;
         
+        [Embed(source="data/gfx/player_sprites.png")]
+        private var imgPlayer:Class;
+        
         
         public function Player(x:Number, y:Number) {
             super(x, y);
-            makeGraphic(10,12,0xffaa1111);
+            //makeGraphic(10,12,0xffaa1111);
+            loadGraphic(imgPlayer, true, true, 10, 12);
+            addAnimation("idle", [4], 0, false);
+            addAnimation("walk", [0, 1, 2, 3], 10, true);
             maxVelocity.x = MAX_VELOCITY;
             maxVelocity.y = MAX_VELOCITY;
             drag.x = DRAG;
@@ -36,6 +42,19 @@ package {
                     acceleration.y = ACCELERATION;
                 }
             }
+            
+            if ((velocity.x != 0) || (velocity.y != 0)) {
+                play("walk");
+            } else {
+                play("idle");
+            }
+            
+            if (velocity.x > 0) {
+                facing = RIGHT;
+            } else if (velocity.x < 0) {
+                facing = LEFT;
+            }
+            
         }
         
         override public function update():void {
