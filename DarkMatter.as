@@ -71,7 +71,7 @@ package {
         
         public function drawCircle():void {
             spriteCircle.graphics.clear();
-            spriteCircle.graphics.beginFill(0x00FF00);
+            spriteCircle.graphics.beginFill(0x000000);
             spriteCircle.graphics.drawCircle(0, 0, currentRadius);
             spriteCircle.graphics.endFill();
             var bitmapDataCircle:BitmapData = new BitmapData(spriteCircle.width, spriteCircle.height, true, 0x00000000);
