@@ -34,17 +34,17 @@ package {
             map.x = 0;
             map.y = 0;
             if(level == 1) {
-                map.loadMap(new Maps.csvMap1(), Maps.pngTilesLevels, 16, 16);
+                map.loadMap(new Maps.csvMap1(), Maps.pngTilesLevels, 16, 16, NaN, 0, 0, 1);
             } else if (level == 2) {
-                map.loadMap(new Maps.csvMap2(), Maps.pngTilesLevels, 16, 16);
+                map.loadMap(new Maps.csvMap2(), Maps.pngTilesLevels, 16, 16, NaN, 0, 0, 1);
             } else if (level == 3) {
-                map.loadMap(new Maps.csvMap3(), Maps.pngTilesLevels, 16, 16);
+                map.loadMap(new Maps.csvMap3(), Maps.pngTilesLevels, 16, 16, NaN, 0, 0, 1);
             } else if (level == 4) {
-                map.loadMap(new Maps.csvMap4(), Maps.pngTilesLevels, 16, 16);
+                map.loadMap(new Maps.csvMap4(), Maps.pngTilesLevels, 16, 16, NaN, 0, 0, 1);
             } else if (level == 5) {
-                map.loadMap(new Maps.csvMap5(), Maps.pngTilesLevels, 16, 16);
+                map.loadMap(new Maps.csvMap5(), Maps.pngTilesLevels, 16, 16, NaN, 0, 0, 1);
             } else if (level == 6) {
-                map.loadMap(new Maps.csvMap6(), Maps.pngTilesLevels, 16, 16);
+                map.loadMap(new Maps.csvMap6(), Maps.pngTilesLevels, 16, 16, NaN, 0, 0, 1);
             }
             return map;
         }
