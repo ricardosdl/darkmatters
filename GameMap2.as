@@ -34,7 +34,6 @@ package {
             portalPosition.x = 16 * GameMap.TILE_SIZE;
             
             this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
-            this.playState.add(this.portal);
         }
         
         public function initDarkMatters():void {
