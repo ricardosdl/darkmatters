@@ -88,8 +88,6 @@ package {
             this.portal.alive = false;
             this.portal.exists = false;
             
-            this.playState.add(this.portal);
-            
         }
         
         public function darkMatter1Behavior():Function {
