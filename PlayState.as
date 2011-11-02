@@ -65,7 +65,10 @@ package {
 	
 	public function playerPortalCollisions():void {
 	    if (FlxG.overlap(player, gameMap.portal)) {
-		trace('next level please');
+		if (GameState.currentLevel < 6) {
+		    GameState.currentLevel += 1;
+		    FlxG.switchState(new PlayState());
+		}
 	    }
 	}
 	
