@@ -60,7 +60,6 @@ package {
 	    FlxG.collide(gameMap.map, gameMap.mapColliders);
 	    playerDarkMattersColisions(player, gameMap.darkMatters);
 	    playerPortalCollisions();
-            input();
         }
 	
 	public function playerPortalCollisions():void {
@@ -82,14 +81,6 @@ package {
 	    }
 	    
 	}
-        
-        public function input():void {
-            if (FlxG.keys.justPressed("C")) {
-                darkMatter.changeRadius(15);
-            } else if (FlxG.keys.justPressed("X")) {
-                darkMatter.changeRadius(-15);
-            }
-        }
         
     }
     
