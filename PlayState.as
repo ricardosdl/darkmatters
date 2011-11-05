@@ -58,8 +58,8 @@ package {
 	    //trace('player velocity y:' + player.velocity.y);
             FlxG.collide(gameMap.map, player);
 	    FlxG.collide(gameMap.map, gameMap.mapColliders);
-	    playerDarkMattersColisions(player, gameMap.darkMatters);
 	    playerPortalCollisions();
+	    playerDarkMattersColisions(player, gameMap.darkMatters);
         }
 	
 	public function playerPortalCollisions():void {
