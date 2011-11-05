@@ -56,6 +56,16 @@ package {
             return pointX >= rect.x && pointX <= rect.right && pointY >= rect.y && pointY <= rect.bottom
         }
         
+        public function menuOptionClick(optionId:int):void {
+            if (optionId == 0) {
+                FlxG.switchState(new PlayState());
+            } else if (optionId == 1) {
+                trace('Load game');
+            } else if (optionId == 2) {
+                trace('credits');
+            }
+        }
+        
         override public function update():void {
             if (pointInFlxRect(FlxG.mouse.screenX, FlxG.mouse.screenY, menuArea)) {
                 //get which option is bellow the mouse
@@ -64,6 +74,11 @@ package {
                     menuOptionsBackGround.y = menuGroup.members[mx].y + 2;
                     menuOptionsBackGround.visible = true;
                 }
+                
+                if (FlxG.mouse.justReleased()) {
+                    menuOptionClick(mx);
+                }
+                
             } else {
                 menuOptionsBackGround.visible = false;
             }
