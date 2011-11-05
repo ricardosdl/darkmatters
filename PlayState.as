@@ -59,9 +59,7 @@ package {
         
         override public function update():void {
             super.update();
-	    //trace('player velocity x:' + player.velocity.x);
-	    //trace('player velocity y:' + player.velocity.y);
-            FlxG.collide(gameMap.map, player);
+	    FlxG.collide(gameMap.map, player);
 	    FlxG.collide(gameMap.map, gameMap.mapColliders);
 	    playerPortalCollisions();
 	    playerDarkMattersColisions(player, gameMap.darkMatters);
