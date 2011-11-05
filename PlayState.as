@@ -14,6 +14,10 @@ package {
 	public var gameMap:GameMap;
 	
 	public static var playState:PlayState;
+	/**
+	 *If this is true it's bad for the player.
+	*/
+	public static var gameOver:Boolean;
 	
 	public function PlayState() {
 	    super();
@@ -21,6 +25,7 @@ package {
 	}
         
         override public function create():void {
+	    gameOver = false;
             gameMap = getGameMap(GameState.currentLevel);
 	    gameMap.addGameMapElements();
 	    
@@ -77,6 +82,7 @@ package {
 		var darkMatter:FlxSprite = darkMatters.members[i] as FlxSprite;
 		if (FlxCollision.pixelPerfectCheck(player, darkMatter)) {
 		    trace('game over');
+		    gameOver = true;
 		}
 	    }
 	    
