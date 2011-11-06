@@ -17,7 +17,9 @@ package {
         public function MenuState() {
             menuOptions = new Array();
             menuOptions.push("NEW GAME");
-            menuOptions.push("LOAD GAME");
+            if (LevelsCompleted._savedGame) {
+                menuOptions.push("LOAD GAME");
+            }
             menuOptions.push("CREDITS");
             
             menuGroup = new FlxGroup();
@@ -59,11 +61,16 @@ package {
         public function menuOptionClick(optionId:int):void {
             if (optionId == 0) {
                 FlxG.switchState(new PlayState());
-            } else if (optionId == 1) {
-                trace('Load game');
-            } else if (optionId == 2) {
-                trace('credits');
+                return;
             }
+            
+            if ((LevelsCompleted._savedGame) && (optionId == 1)) {
+                GameState.currentLevel = LevelsCompleted.currentLevel();
+                FlxG.switchState(new PlayState());
+                return;
+            }
+            
+            trace('credits');
         }
         
         override public function update():void {

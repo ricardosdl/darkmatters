@@ -9,6 +9,7 @@ package {
         
         public function Darkness():void {
             super(160, 120, MenuState, 2, 50, 50);
+            LevelsCompleted.load();
             forceDebugger = true;
         }
         

@@ -156,6 +156,7 @@ package {
 	    if (FlxG.overlap(player, gameMap.portal)) {
 		if (GameState.currentLevel < 6) {
 		    GameState.currentLevel += 1;
+		    LevelsCompleted.updateSavedGame(GameState.currentLevel);
 		    FlxG.switchState(new PlayState());
 		}
 	    }
