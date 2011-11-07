@@ -172,6 +172,22 @@ package {
 	    }
 	    
 	}
+	
+	public function endOfGame():void {
+	    var endMessage1:String = "You can defeat darkness";
+            var endMessage2:String = "Always believe in yourself";
+            
+            var endText1:FlxText = new FlxText(0 + FlxG.camera.x, 10 + FlxG.camera.y, 160, endMessage1);
+            endText1.size = 10;
+            endText1.alignment = "center";
+            trace('endText1.height:' + endText1.height);
+            add(endText1);
+            
+            var endText2:FlxText = new FlxText(0, 30, 160, endMessage2);
+            endText2.size = 10;
+            endText2.alignment = "center";
+            add(endText2);
+	}
         
     }
     
