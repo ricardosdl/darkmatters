@@ -35,6 +35,17 @@ package {
             
             return function(darkMatter:DarkMatter):void {
                 var currentRadius:Number = darkMatter.currentRadius;
+                
+                if (! darkMatter.isChangingRadius()) {
+                    if (currentRadius <= 0) {
+                        darkMatter.alive = false;
+                        darkMatter.exists = false;
+                        darkMatter.visible = false;
+                        (playState as PlayState).endOfGame();
+                        return;
+                    }
+                }
+                
                 var minDistancePlayer:Number = currentRadius + ((20 / 100) * currentRadius) + PlayState.player.width;
                 darkMatterCentralPoint.x = darkMatter.x + darkMatter.origin.x;
                 darkMatterCentralPoint.y = darkMatter.y + darkMatter.origin.y;
@@ -49,7 +60,7 @@ package {
                     return;
                 }
                 var playerVelocity:Number;
-                if (PlayState.player.velocity.x > PlayState.player.velocity.y) {
+                if (Math.abs(PlayState.player.velocity.x) > Math.abs(PlayState.player.velocity.y)) {
                     playerVelocity = PlayState.player.velocity.x;
                 } else {
                     playerVelocity = PlayState.player.velocity.y;
