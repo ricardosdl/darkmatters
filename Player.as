@@ -11,6 +11,7 @@ package {
         [Embed(source="data/gfx/player_sprites.png")]
         private var imgPlayer:Class;
         
+        public var handleInput:Boolean;
         
         public function Player(x:Number, y:Number) {
             super(x, y);
@@ -22,9 +23,13 @@ package {
             maxVelocity.y = MAX_VELOCITY;
             drag.x = DRAG;
             drag.y = DRAG;
+            handleInput = true;
         }
         
         public function input():void {
+            if (! handleInput) {
+                return;
+            }
             acceleration.x = 0;
             acceleration.y = 0;
             if (FlxG.keys.LEFT || FlxG.keys.RIGHT) {
