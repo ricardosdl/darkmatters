@@ -45,14 +45,18 @@ package {
             
         }
         
+        public function stop():void {
+            play("idle");
+            acceleration.x = 0;
+            acceleration.y = 0;
+            velocity.x = 0;
+            velocity.y = 0;
+        }
+        
         override public function update():void {
             super.update();
             if (PlayState.gameOver) {
-                play("idle");
-                acceleration.x = 0;
-                acceleration.y = 0;
-                velocity.x = 0;
-                velocity.y = 0;
+                stop();
                 return;
             }
             
