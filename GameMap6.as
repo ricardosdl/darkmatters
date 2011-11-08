@@ -15,11 +15,25 @@ package {
         public function init():void {
             initDarkMattersPosition();
             initDarkMatters();
+            initPortal();
             initInitialPlayerPosition();
+        }
+        
+        public function initPortal():void {
+            var portalPosition:FlxPoint = new FlxPoint();
+            //always tileX = 20, tileY = 15, midlle of the map
+            portalPosition.x = 20 * GameMap.TILE_SIZE;
+            
+            portalPosition.y = 15 * GameMap.TILE_SIZE;
+            
+            this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
+            this.portal.alive = false;
+            this.portal.exists = false;
         }
         
         override public function addGameMapElements():void {
             playState.add(this.map);
+            playState.add(this.portal);
             playState.add(this.darkMatters);
         }
         
@@ -41,7 +55,8 @@ package {
                         darkMatter.alive = false;
                         darkMatter.exists = false;
                         darkMatter.visible = false;
-                        (playState as PlayState).endOfGame();
+                        portal.alive = true;
+                        portal.exists = true;
                         return;
                     }
                 }
