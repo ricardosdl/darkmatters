@@ -7,11 +7,19 @@ package {
         public static const MAX_VELOCITY:int = 75;
         public static const ACCELERATION:int = 150;
         public static const DRAG:int = 2 * MAX_VELOCITY;
+        public static const INTERVAL_BETWEEN_STEPS_SOUND:Number = .25;
         
         [Embed(source="data/gfx/player_sprites.png")]
         private var imgPlayer:Class;
         
+        [Embed(source="data/sfx/steps1.mp3")]
+        private var mp3Steps:Class;
+        
         public var handleInput:Boolean;
+        
+        public var lastTimePlayedStep:Number = 0;
+        public var currentTime:Number = 0;
+        
         
         public function Player(x:Number, y:Number) {
             super(x, y);
@@ -77,6 +85,17 @@ package {
                 facing = RIGHT;
             } else if (acceleration.x < 0) {
                 facing = LEFT;
+            }
+            
+            if ((velocity.x != 0) || (velocity.y != 0)) {
+                currentTime += FlxG.elapsed;
+                if ((currentTime - lastTimePlayedStep) >= INTERVAL_BETWEEN_STEPS_SOUND) {
+                    FlxG.play(mp3Steps, .8, false);
+                    lastTimePlayedStep = currentTime;
+                }
+            } else {
+                currentTime += FlxG.elapsed;
+                lastTimePlayedStep = currentTime;
             }
             
         }
