@@ -5,7 +5,7 @@ package {
     
     public class MenuState extends FlxState {
         
-        public var gameTitle:String = "Darkness";
+        public var gameTitle:String = "DarkMatters";
         public var menuOptions:Array;
         
         public var menuOptionsBackGround:FlxSprite;
@@ -26,7 +26,7 @@ package {
         }
         
         override public function create():void {
-            var xTitle:Number = 20;
+            var xTitle:Number = 5;
             var yTitle:Number = 10;
             var txtTitle:FlxText = new FlxText(xTitle, yTitle, 160, gameTitle);
             txtTitle.size = 20;
