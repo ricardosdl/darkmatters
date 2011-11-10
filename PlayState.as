@@ -37,6 +37,13 @@ package {
 	*/
 	public var gameOverDarkMatterLayer:FlxGroup;
 	
+	[Embed(source="data/sfx/endOfGame.mp3")]
+	public var mp3EndOfGame:Class;
+	
+	[Embed(source="data/sfx/touchPortal2.mp3")]
+	public var mp3TouchPortal:Class;
+	
+	
 	
 	public function PlayState() {
 	    super();
@@ -141,7 +148,8 @@ package {
 	}
         
         override public function update():void {
-            super.update();
+	    super.update();
+	    
 	    if (gameOver) {
 		removeGameMapDarkMatters();
 		addGameOverDarkMatter();
@@ -152,20 +160,44 @@ package {
 	    playerDarkMattersColisions(player, gameMap.darkMatters);
         }
 	
+	public function goToNextLevel():void {
+	    player.stop();
+	    player.handleInput = false;
+	    
+	    //remove the darkmatters.
+	    var numDarkMatters:int = gameMap.darkMatters.length;
+	    for(var i:int = numDarkMatters - 1; i >= 0; i--) {
+		var darkMatter:DarkMatter = gameMap.darkMatters.members[i] as DarkMatter;
+		darkMatter.stopDarkMatterGrowSound();
+		darkMatter.alive = false;
+		darkMatter.exists = false;
+		darkMatter.visible = false;
+		remove(darkMatter);
+	    }
+	    
+	    GameState.currentLevel += 1;
+	    LevelsCompleted.updateSavedGame(GameState.currentLevel);
+	    FlxG.play(mp3TouchPortal);
+	    FlxG.fade(0xffffffff, 2.5, restartPlayState);
+	}
+	
 	public function playerPortalCollisions():void {
 	    if (FlxG.overlap(player, gameMap.portal)) {
 		if (GameState.currentLevel < 6) {
-		    GameState.currentLevel += 1;
-		    LevelsCompleted.updateSavedGame(GameState.currentLevel);
-		    FlxG.switchState(new PlayState());
+		    goToNextLevel();
 		} else {
 		    gameMap.portal.alive = false;
 		    gameMap.portal.exists = false;
 		    player.stop();
 		    player.handleInput = false;
-		    FlxG.fade(0xffffffff, 5, endOfGame);
+		    FlxG.fade(0xffffffff, 36, endOfGame);
+		    FlxG.play(mp3EndOfGame, 1, false);
 		}
 	    }
+	}
+	
+	public function restartPlayState():void {
+	    FlxG.switchState(new PlayState());
 	}
 	
 	public function playerDarkMattersColisions(player:FlxSprite, darkMatters:FlxGroup):void {
