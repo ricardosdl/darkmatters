@@ -11,6 +11,9 @@ package {
         public static const MAX_RADIUS:uint = 50;
         public static const MIN_RAIDUS:uint = 1;
         
+        [Embed(source="data/sfx/darkMatterGrow3.mp3")]
+        private var mp3DarkMatterGrow:Class;
+        
         public var currentRadius:Number = 0;
         
         /**
@@ -38,6 +41,8 @@ package {
         
         public var _darkMatterBehavior:Function;
         
+        public var _darkMatterGrowSound:FlxSound;
+        
         public function DarkMatter(x:Number, y:Number,
             darkMatterBehavior:Function, radiusStep:Number = 10):void {
             
@@ -49,6 +54,12 @@ package {
             spriteCircle = new Sprite();
             matrix = new Matrix();
             clearCircle();
+            _initGrowSound();
+        }
+        
+        public function _initGrowSound():void {
+            _darkMatterGrowSound = new FlxSound();
+            _darkMatterGrowSound.loadEmbedded(mp3DarkMatterGrow);
         }
         
         public function isChangingRadius():Boolean {
@@ -100,6 +111,14 @@ package {
             return _nextRadius < currentRadius;
         }
         
+        public function _playDarkMatterGrowSound():void {
+            _darkMatterGrowSound.play();
+        }
+        
+        public function stopDarkMatterGrowSound():void {
+            _darkMatterGrowSound.stop();
+        }
+        
         override public function update():void {
             _darkMatterBehavior(this);
             if (isChangingRadius()) {
@@ -118,6 +137,13 @@ package {
                     drawCircle();
                 }
             }
+            
+            if ((isChangingRadius()) && (_currentRadiusStep > 0)) {
+                _playDarkMatterGrowSound();
+            } else {
+                stopDarkMatterGrowSound();
+            }
+            
             super.update();
         }
         
