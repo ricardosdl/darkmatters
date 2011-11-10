@@ -161,6 +161,10 @@ package {
         }
 	
 	public function goToNextLevel():void {
+	    gameMap.portal.exists = false;
+	    gameMap.portal.alive = false;
+	    gameMap.portal.visible = false;
+	    
 	    player.stop();
 	    player.handleInput = false;
 	    
