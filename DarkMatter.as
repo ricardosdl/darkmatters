@@ -62,6 +62,7 @@ package {
         public function _initGrowSound():void {
             _darkMatterGrowSound = new FlxSound();
             _darkMatterGrowSound.loadEmbedded(mp3DarkMatterGrow);
+            _darkMatterGrowSound.volume = .7;
         }
         
         public function isChangingRadius():Boolean {
