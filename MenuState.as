@@ -70,7 +70,7 @@ package {
                 return;
             }
             
-            trace('credits');
+            FlxG.switchState(new CreditsState());
         }
         
         override public function update():void {
