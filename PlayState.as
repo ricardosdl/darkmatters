@@ -213,12 +213,12 @@ package {
 	    GameState.currentLevel += 1;
 	    LevelsCompleted.updateSavedGame(GameState.currentLevel);
 	    FlxG.play(mp3TouchPortal);
-	    goingToNextLevel = true;
 	    FlxG.fade(0xffffffff, 2.5, restartPlayState);
 	}
 	
 	public function playerPortalCollisions():void {
 	    if (FlxG.overlap(player, gameMap.portal)) {
+		goingToNextLevel = true;
 		if (GameState.currentLevel < 6) {
 		    goToNextLevel();
 		} else {
