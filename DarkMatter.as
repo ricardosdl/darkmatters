@@ -43,6 +43,8 @@ package {
         
         public var _darkMatterGrowSound:FlxSound;
         
+        public var _isGameOverDarkMatter:Boolean = false;
+        
         public function DarkMatter(x:Number, y:Number,
             darkMatterBehavior:Function, radiusStep:Number = 10):void {
             
@@ -112,6 +114,9 @@ package {
         }
         
         public function _playDarkMatterGrowSound():void {
+            if (_isGameOverDarkMatter) {
+                return;
+            }
             _darkMatterGrowSound.play();
         }
         
