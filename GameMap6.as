@@ -80,7 +80,7 @@ package {
                 } else {
                     playerVelocity = PlayState.player.velocity.y;
                 }
-                darkMatter.radiusStep = 1.5 * playerVelocity;
+                darkMatter.radiusStep = 1.5 * Math.abs(playerVelocity);
                 darkMatter.changeRadius(-1 * PlayState.player.width * 2);
                 
                 //TODO = this darkMatter will shrink as the player approaches
