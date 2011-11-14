@@ -170,8 +170,6 @@ package {
 		} else {
 		    FlxG.paused = false;
 		    pauseMenuGroup.hide();
-		    //pauseMenuGroup.alive = false;
-		    //pauseMenuGroup.exists = false;
 		}
 	    }
 	    
