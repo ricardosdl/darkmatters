@@ -44,6 +44,10 @@ package {
 	public var mp3TouchPortal:Class;
 	
 	public var pauseMenuGroup:PauseMenu;
+	/**
+	 *Tells if the playState is transitioning to the next level.
+	*/
+	public var goingToNextLevel:Boolean;
 	
 	public function PlayState() {
 	    super();
@@ -57,6 +61,7 @@ package {
         
         override public function create():void {
 	    gameOver = false;
+	    goingToNextLevel = false;
 	    _darkMattersRemoved = false;
 	    _addedGameOverDarkMatter = false;
             gameMap = getGameMap(GameState.currentLevel);
@@ -163,7 +168,9 @@ package {
 		pauseMenuGroup.update();
 	    }
 	    
-	    if (FlxG.keys.justPressed("ESCAPE") || FlxG.keys.justPressed("P")) {
+	    var gameShouldPauseOrUnPause:Boolean = (FlxG.keys.justPressed("ESCAPE")
+		|| FlxG.keys.justPressed("P")) && (! goingToNextLevel);
+	    if (gameShouldPauseOrUnPause) {
 		if(! FlxG.paused) {
 			FlxG.paused = true;
 			pauseMenuGroup.show();
@@ -206,6 +213,7 @@ package {
 	    GameState.currentLevel += 1;
 	    LevelsCompleted.updateSavedGame(GameState.currentLevel);
 	    FlxG.play(mp3TouchPortal);
+	    goingToNextLevel = true;
 	    FlxG.fade(0xffffffff, 2.5, restartPlayState);
 	}
 	
