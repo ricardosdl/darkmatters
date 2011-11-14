@@ -95,7 +95,8 @@ package {
 	    }
 	    var numDarkMatters:int = gameMap.darkMatters.length;
 	    for(var i:int = numDarkMatters - 1; i >= 0; i--) {
-		var darkMatter:FlxSprite = gameMap.darkMatters.members[i] as FlxSprite;
+		var darkMatter:DarkMatter = gameMap.darkMatters.members[i] as DarkMatter;
+		darkMatter.stopDarkMatterGrowSound();
 		darkMatter.alive = false;
 		darkMatter.exists = false;
 		darkMatter.visible = false;
@@ -143,6 +144,7 @@ package {
 	    }
 	    gameOverDarkMatter = new DarkMatter(player.x + player.origin.x,
 		player.y + player.origin.y, gameOverDarkMatterBehavior(), 30);
+	    gameOverDarkMatter._isGameOverDarkMatter = true;
 	    gameOverDarkMatterLayer.add(gameOverDarkMatter);
 	    _addedGameOverDarkMatter = true;
 	}
