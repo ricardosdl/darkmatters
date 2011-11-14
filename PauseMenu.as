@@ -55,7 +55,6 @@ package {
         public function initOptionsPauseMenu():void {
             pauseMenuOptions = new Array();
 	    pauseMenuOptions.push("RESUME");
-	    pauseMenuOptions.push("SOUND: " + (FlxG.mute ? "OFF" : "ON"));
 	    pauseMenuOptions.push("BACK TO MENU");
 	    pauseMenuOptionsGroup = new FlxGroup();
             
@@ -102,6 +101,14 @@ package {
             return pointX >= rect.x && pointX <= rect.right && pointY >= rect.y && pointY <= rect.bottom
         }
         
+        public function pauseMenuOptionClick(id:int):void {
+            FlxG.paused = false;
+            hide();
+            if (id == 1) {
+                FlxG.switchState(new MenuState());
+            }
+        }
+        
         override public function update():void {
             if (pointInFlxRect(FlxG.mouse.screenX, FlxG.mouse.screenY, pauseMenuOptionsArea)) {
                 //get which option is bellow the mouse
@@ -112,7 +119,7 @@ package {
                 }
                 
                 if (FlxG.mouse.justReleased()) {
-                    //menuOptionClick(mx);
+                    pauseMenuOptionClick(mx);
                 }
                 
             } else {
