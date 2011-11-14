@@ -43,11 +43,16 @@ package {
 	[Embed(source="data/sfx/touchPortal2.mp3")]
 	public var mp3TouchPortal:Class;
 	
-	
+	public var pauseMenuGroup:PauseMenu;
 	
 	public function PlayState() {
 	    super();
 	    playState = this;
+	}
+	
+	public function createPauseMenu():void {
+	    pauseMenuGroup = new PauseMenu(20, 15);
+	    add(pauseMenuGroup);
 	}
         
         override public function create():void {
@@ -66,7 +71,9 @@ package {
 	    FlxG.camera.setBounds(0, 0, 640, 480, true);
 	    FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN_TIGHT);
             
-            FlxG.mouse.hide();
+	    FlxG.mouse.hide();
+	    
+	    createPauseMenu();
             
         }
 	
@@ -150,7 +157,24 @@ package {
 	}
         
         override public function update():void {
-	    super.update();
+	    if (! FlxG.paused) {
+		super.update();
+	    } else {
+		pauseMenuGroup.update();
+	    }
+	    
+	    if (FlxG.keys.justPressed("ESCAPE") || FlxG.keys.justPressed("P")) {
+		if(! FlxG.paused) {
+			FlxG.paused = true;
+			pauseMenuGroup.show();
+		} else {
+		    FlxG.paused = false;
+		    pauseMenuGroup.hide();
+		    //pauseMenuGroup.alive = false;
+		    //pauseMenuGroup.exists = false;
+		}
+	    }
+	    
 	    
 	    if (gameOver) {
 		removeGameMapDarkMatters();
