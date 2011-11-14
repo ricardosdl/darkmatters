@@ -9,9 +9,13 @@ package {
         public static const BOOST_MAX_VELOCITY:int = 130;
         public static const ACCELERATION:int = 150;
         public static const MIN_PLAYER_DISTANCE:Number = 55;
+        public static const INTERVAL_BETWEEN_STEPS_SOUND:Number = .25;
         
         [Embed(source="data/gfx/darkother_sprites.png")]
         private var imgDarkOther:Class;
+        
+        [Embed(source="data/sfx/steps1.mp3")]
+        private var mp3Steps:Class;
         
         /**
          *These are the tiles locations where the DarkOther must pass. The DarkOther
@@ -59,6 +63,9 @@ package {
          *If true the darkother hasn't reached the end of the path, otherwise...
         */
         public var itsOver:Boolean;
+        
+        public var lastTimePlayedStep:Number = 0;
+        public var currentTime:Number = 0;
         
         
         public function DarkOther(x:Number, y:Number, grid:Array) {
@@ -290,6 +297,17 @@ package {
                 play("walk");
             } else {
                 play("idle");
+            }
+            
+            if ((velocity.x != 0) || (velocity.y != 0)) {
+                currentTime += FlxG.elapsed;
+                if ((currentTime - lastTimePlayedStep) >= INTERVAL_BETWEEN_STEPS_SOUND) {
+                    FlxG.play(mp3Steps, .8, false);
+                    lastTimePlayedStep = currentTime;
+                }
+            } else {
+                currentTime += FlxG.elapsed;
+                lastTimePlayedStep = currentTime;
             }
             
             if (velocity.x > 0) {
