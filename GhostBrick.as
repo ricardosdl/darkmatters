@@ -9,7 +9,7 @@ package {
         
         public function GhostBrick(x:Number, y:Number) {
             super(x, y, img);
-            alpha = .85;
+            alpha = .8;
         }
         
     }
