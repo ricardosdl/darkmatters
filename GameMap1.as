@@ -64,8 +64,8 @@ package {
             return function(darkMatter:DarkMatter):void {
                 var timeToGrow:Boolean;
                 if (firstGrow) {
-                    //the first grow takes only 3 seconds
-                    timeToGrow = currentTime > lastTime + 3;
+                    //the first grow takes only 2 seconds
+                    timeToGrow = currentTime > lastTime + 2;
                 } else {
                     //the further growns will take 5 seconds
                     timeToGrow = currentTime > lastTime + 5;
