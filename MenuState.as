@@ -17,6 +17,7 @@ package {
         public function MenuState() {
             menuOptions = new Array();
             menuOptions.push("NEW GAME");
+            LevelsCompleted.load();
             if (LevelsCompleted._savedGame) {
                 menuOptions.push("LOAD GAME");
             }
