@@ -60,6 +60,7 @@ package {
         
         public function menuOptionClick(optionId:int):void {
             if (optionId == 0) {
+                GameState.currentLevel = 1;
                 FlxG.switchState(new PlayState());
                 return;
             }
