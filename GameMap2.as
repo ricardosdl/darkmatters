@@ -84,16 +84,10 @@ package {
                     yDarkMatter = (player.y + player.origin.y) + minDistanceFromDarkMatterBorder + darkMatterRadius;
                     break;
                 case 'bottomLeft':
-                    trace('bottom left');
                     xDarkMatter = (player.x + player.origin.x) - minDistanceFromDarkMatterBorder - darkMatterRadius;
                     yDarkMatter = (player.y + player.origin.y) + minDistanceFromDarkMatterBorder + darkMatterRadius;
                     break;
             }
-            
-            trace('player origing x:' + player.origin.x);
-            trace('player origing y:' + player.origin.y);
-            trace('min distance:' + minDistanceFromDarkMatterBorder);
-            trace('darMatterRadius:' + darkMatterRadius);
             
             return new FlxPoint(xDarkMatter, yDarkMatter);
             
@@ -107,15 +101,12 @@ package {
             var expanding:Boolean;
             
             return function(darkMatter:DarkMatter):void {
-                //trace('called behavior');
                 //if the darkMatter is changing the radius either expanding or shrinking
                 //we wait
                 if (darkMatter.isChangingRadius()) {
                     //we must update the currentTime
                     currentTime += FlxG.elapsed;
                     lastTime = currentTime;
-                    //trace('currentTime:' + currentTime);
-                    //trace('lastTime:' + lastTime);
                     return;
                 } else {
                     //if the darkMatter was expanding, we need to tell it to shrink
@@ -130,11 +121,9 @@ package {
                     
                     //here we check if it's time to tell the darkMatter to grow(expanding = true)
                     timeToGrow = currentTime > lastTime + waitTime;
-                    //trace('timeToGrow:' + timeToGrow);
                 }
                 
                 if (timeToGrow) {
-                    trace('grow motherfucker');
                     _changeDarkMatterRadius(darkMatter);
                     //new waitTime!
                     waitTime = RandomInterval.randomInterval(1, 4, true);
@@ -155,8 +144,7 @@ package {
             darkMatter.radiusStep = darkMatterRadius / 2;
             var darkMatterPosition:FlxPoint = generateDarkMatterPosition(PlayState.player,
                 darkMatterRadius);
-            trace('darMatter position x:' + darkMatterPosition.x);
-            trace('darMatter position y:' + darkMatterPosition.y);
+            
             darkMatter.x = darkMatterPosition.x;
             darkMatter.y = darkMatterPosition.y;
             darkMatter.changeRadius(darkMatterRadius);

@@ -170,16 +170,8 @@ package {
             var playerTileX:int = _calcPlayerTileX(playerCenterX, GameMap.TILE_SIZE);
             var playerTileY:int = _calcPlayerTileY(playerCenterY, GameMap.TILE_SIZE);
             
-            //var colList:Array = [-1, 0, 1, 1, 1, 0, -1, -1, 0];
-            //var rowList:Array = [-1, -1, -1, 0, 1, 1, 1, 0, 0];
             var colList:Array = [0];
             var rowList:Array = [0];
-            
-            //colList = colList.concat([-2, -1,  0,  1,  2 , 2 , 2, 2, 2, 1, 0, -1, -2, -2, -2, -2]);
-            //trace('col list len:' + colList.length);
-            ////var colList:Array = [-2, -1,  0,  1,  2 , 2 , 2, 2, 2, 1, 0, -1, -2, -2, -2, -2];
-            //rowList = rowList.concat([-2, -2, -2, -2, -2, -1,  0, 1, 2, 2, 2,  2,  2,  1,  0, -1]);
-            ////var rowList:Array = [-2, -2, -2, -2, -2, -1,  0, 1, 2, 2, 2,  2,  2,  1,  0, -1];
             
             //we expect this to always be 1
             var numNodes:int = colList.length;
@@ -194,7 +186,6 @@ package {
                 //the player's own position, by the way they are the tile positions
                 _alteredGrid[yPosition][xPosition] = 1;
             }
-            //_printAlteredGrid(_alteredGrid);
         }
         
         public function _stop():void {
@@ -257,25 +248,7 @@ package {
                 
             } while(_alteredGrid[nextWayPointY][nextWayPointX] == 1);
             
-            //trace('current way point:' + currentWayPoint);
-            //trace('next way point x:' + nextWayPoint.x);
-            //trace('next way point y:' + nextWayPoint.y);
             return nextWayPoint;
-        }
-        
-        public function printPath():void {
-            for(var i:int = 0; i < _path.length; i++) {
-                trace('y:' + (_path[i].y + 1) + '|x:' + (_path[i].x + 1));
-            }
-        }
-        
-        public function printPath2():void {
-            trace('start: x:' + _path[0].x + '|y:' + _path[0].y);
-            trace('end: x:' + _path[_path.length - 1].x + '|y:' + _path[_path.length - 1].y);
-            for(var i:int = 0; i < _path.length; i++) {
-                trace('x:' + (_path[i].x) + '|y:' + (_path[i].y));
-            }
-            trace('==========================================');
         }
         
         public function _calcPath():void {
@@ -344,7 +317,6 @@ package {
             _nextWayPoint = _getNextWayPoint();
             _calcPath();
             _move();
-            //printPath();
             
         }
         

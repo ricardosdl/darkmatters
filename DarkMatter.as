@@ -75,8 +75,6 @@ package {
             if (_nextRadius <= 0) {
                 _nextRadius = 0;
             }
-            //trace("_nextRadius:" + _nextRadius);
-            //trace("_currentRadius:" + _currentRadius);
         }
         
         public function clearCircle():void {

@@ -35,13 +35,11 @@ package {
             //always tile y-27
             portalPosition.y = 27 * GameMap.TILE_SIZE;
             
-            trace("portal position y:" + portalPosition.y);
             var xTilePosition:int = Math.floor(Math.random() * 39);
             if (xTilePosition <= 0) {
                 xTilePosition = 1;
             }
             portalPosition.x = xTilePosition * GameMap.TILE_SIZE;
-            trace("portal position x:" + portalPosition.x);
             this.portal = new FlxSprite(portalPosition.x, portalPosition.y, this.pngPortal);
         }
         
