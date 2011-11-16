@@ -35,7 +35,7 @@ package {
             //always tile y-27
             portalPosition.y = 27 * GameMap.TILE_SIZE;
             
-            var xTilePosition:int = Math.floor(Math.random() * 39);
+            var xTilePosition:int = Math.floor(Math.random() * 19);
             if (xTilePosition <= 0) {
                 xTilePosition = 1;
             }
