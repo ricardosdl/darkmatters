@@ -1,0 +1,22 @@
+Really small and simple game developed using Action Script 3 and the flixel
+library(http://www.flixel.org/). Unfortunately the code is not small and simple.
+
+To compile it you must install the Flex SDK
+(https://www.adobe.com/devnet/flex/flex-sdk-download.html).
+
+It works fine with the version 4.5.1.
+
+To compile it just type:
+mxmlc Darkness.as
+It should create a file called Darkness.swf which can be executed in the browser
+or using the flashplayer.
+
+I personally use the fcsh to compile. Just type fcsh and in the console type
+mxmlc Darkness.as
+It will compile the game and show a message like:
+"fcsh: Assigned 1 as the compile target id"
+Then if you want to compile again just type:
+compile 1
+It's faster to compile this way.
+
+Any doubts just contact me.
